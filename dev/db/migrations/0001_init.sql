@@ -50,5 +50,22 @@ CREATE TABLE IF NOT EXISTS FinancialMetrics (
     UNIQUE (lei, period, metric, source)
 );
 
+-- Court decisions (justice_data) — one row per legal decision per company.
+-- Populated later; the frontend renders `summary` as a bullet per company.
+CREATE TABLE IF NOT EXISTS Court_decision (
+    id            INTEGER PRIMARY KEY,
+    lei           TEXT NOT NULL REFERENCES company(lei),
+    decision_date TEXT,
+    jurisdiction  TEXT,
+    court         TEXT,
+    case_ref      TEXT,
+    summary       TEXT,
+    outcome       TEXT,
+    url           TEXT,
+    source        TEXT,
+    retrieved_at  TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_emissions_lei_year ON emissions (lei, reporting_year);
 CREATE INDEX IF NOT EXISTS idx_financial_lei_period ON FinancialMetrics (lei, period);
+CREATE INDEX IF NOT EXISTS idx_court_lei ON court_decision (lei);
