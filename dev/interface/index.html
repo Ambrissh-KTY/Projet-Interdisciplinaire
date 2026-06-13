@@ -1,0 +1,106 @@
+html<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Moteur de recherche entreprises</title>
+<style>
+  body { font-family: sans-serif; display: flex; gap: 20px; padding: 20px; }
+  #liste { width: 220px; border: 1px solid #ccc; padding: 10px; max-height: 90vh; overflow-y: auto; }
+  #liste div { padding: 8px; cursor: pointer; border-radius: 4px; }
+  #liste div:hover { background: #eee; }
+  #detail { flex: 1; border: 1px solid #ccc; padding: 20px; }
+  .bloc { padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div id="liste">
+  <h3>CAC40</h3>
+  <!-- généré automatiquement par JS -->
+</div>
+
+<div id="detail">
+  <h2 id="nom">Sélectionnez une entreprise</h2>
+  <div class="bloc">
+    <strong>Financier</strong>
+    <p>CA : <span id="ca"></span></p>
+    <p>Dividende : <span id="div"></span></p>
+  </div>
+  <div class="bloc">
+    <strong>Écologique</strong>
+    <p>Émissions CO2 : <span id="co2"></span></p>
+  </div>
+  <div class="bloc">
+    <strong>Pénal</strong>
+    <ul id="proces"></ul>
+  </div>
+</div>
+
+<script>
+// === DONNÉES (à remplacer par fetch('data.json') quand l'équipe data livre) ===
+// Liste des 40 entreprises du CAC40, avec leur LEI (identifiant utilisé par la base de données)
+const entreprises = [
+  { nom: "Accor", lei: "969500QZC2Q0TK11NV07", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Air Liquide", lei: "969500MMPQVHK671GT54", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Airbus", lei: "MINO79WLOO247M1IL051", ca: "", div: "", co2: "", proces: [] },
+  { nom: "ArcelorMittal", lei: "2EULGUTUI56JI9SAL165", ca: "", div: "", co2: "", proces: [] },
+  { nom: "AXA", lei: "F5WCUMTUM4RKZ1MAIE39", ca: "", div: "", co2: "", proces: [] },
+  { nom: "BNP Paribas", lei: "R0MUWSFPU8MPRO8K5P83", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Bouygues", lei: "969500MOCLNQFNZN0D63", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Capgemini", lei: "96950077L0TN7BAROX36", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Carrefour", lei: "549300B8P6MUJ1YWTS08", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Crédit Agricole", lei: "969500TJ5KRTCJQWXH05", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Danone", lei: "969500KMUQ2B6CBAF162", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Dassault Systèmes", lei: "96950065LBWY0APQIM86", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Edenred", lei: "9695006LOD5B2D7Y0N70", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Engie", lei: "LAXUQCHT4FH58LRZDY46", ca: "", div: "", co2: "", proces: [] },
+  { nom: "EssilorLuxottica", lei: "549300M3VH1A3ER1TB49", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Eurofins Scientific", lei: "529900JEHFM47DYY3S57", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Hermès International", lei: "969500Y4IJGHJE2MTJ13", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Kering", lei: "549300VGEJKB7SVUZR78", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Legrand", lei: "969500XXRPGD7HCAFA90", ca: "", div: "", co2: "", proces: [] },
+  { nom: "L'Oréal", lei: "529900JI1GG6F7RKVI53", ca: "", div: "", co2: "", proces: [] },
+  { nom: "LVMH", lei: "IOG4E947OATN0KJYSD45", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Michelin", lei: "549300SOSI58J6VIW052", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Orange", lei: "969500MCOONR8990S771", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Pernod Ricard", lei: "52990097YFPX9J0H5D87", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Publicis Groupe", lei: "2138004KW8BV57III342", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Renault", lei: "969500F7JLTX36OUI695", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Safran", lei: "969500UIC89GT3UL7L24", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Saint-Gobain", lei: "NFONVGN05Z0FMN5PEC35", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Sanofi", lei: "549300E9PC51EN656011", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Schneider Electric", lei: "969500A1YF1XUYYXS284", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Société Générale", lei: "O2RNE8IBXP4R0TD8PU41", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Stellantis", lei: "549300LKT9PW7ZIBDF31", ca: "", div: "", co2: "", proces: [] },
+  { nom: "STMicroelectronics", lei: "213800Z8NOHIKRI42W10", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Teleperformance", lei: "9695004GI61FHFFNRG61", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Thales", lei: "529900FNDVTQJOVVPZ19", ca: "", div: "", co2: "", proces: [] },
+  { nom: "TotalEnergies", lei: "529900S21EQ1BO4ESM68", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Unibail-Rodamco-Westfield", lei: "969500SHQITWXSIS7N89", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Veolia", lei: "969500LENY69X51OOT31", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Vinci", lei: "213800WFQ334R8UXUG83", ca: "", div: "", co2: "", proces: [] },
+  { nom: "Vivendi", lei: "969500FU4DRAEVJW7U54", ca: "", div: "", co2: "", proces: [] }
+];
+
+// Génère la liste à gauche
+const liste = document.getElementById('liste');
+entreprises.forEach((e, i) => {
+  const div = document.createElement('div');
+  div.textContent = e.nom;
+  div.onclick = () => afficher(i);
+  liste.appendChild(div);
+});
+
+// Affiche les détails à droite
+function afficher(i) {
+  const e = entreprises[i];
+  document.getElementById('nom').textContent = e.nom;
+  document.getElementById('ca').textContent = e.ca;
+  document.getElementById('div').textContent = e.div;
+  document.getElementById('co2').textContent = e.co2;
+  document.getElementById('proces').innerHTML = e.proces.map(p => `<li>${p}</li>`).join('');
+}
+</script>
+
+</body>
+</html>
