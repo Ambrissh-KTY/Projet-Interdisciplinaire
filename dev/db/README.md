@@ -29,11 +29,11 @@ tracks progress with SQLite's built-in `PRAGMA user_version` and skips files
 already applied (idempotent). To change the schema, add the next-numbered file —
 never edit an applied migration once the DB holds real data.
 
-### *DO NOT UNDER ANY COMMIT A MODIFIED VERSION OF AN EXISTING .sql FILE ! IT WILL BREAK THE DATABASE !*
+### *DO NOT UNDER ANY CIRCUMSTANCE COMMIT A MODIFIED VERSION OF AN EXISTING .sql FILE ! IT WILL BREAK THE DATABASE !*
 
 thank you. - Damien
 
-## Pour après - Climate Data Utility (NZDPU) ingestion
+## Pour après - Climate Data Utility (NZDPU) 
 
 The **Climate Data Utility / Net-Zero Data Public Utility** is a free, open
 repository of company climate data (CDP-sourced), keyed by **LEI** — which we
