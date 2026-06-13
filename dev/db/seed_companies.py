@@ -31,7 +31,7 @@ def main() -> None:
     now = datetime.now(timezone.utc).isoformat()
     cols = list(FIELD_MAP.values()) + ["added_at"]
     placeholders = ", ".join("?" for _ in cols)
-    updates = ", ".join(f"{c}=excluded.{c}" for c in cols if c != "lei")
+    updates = ", ".join(f"{c}=excluded.{c}" for c in cols if c not in ("lei", "added_at"))
     sql = (
         f"INSERT INTO company ({', '.join(cols)}) VALUES ({placeholders}) "
         f"ON CONFLICT(lei) DO UPDATE SET {updates}"

@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS Emissions (
     lei            TEXT NOT NULL REFERENCES company(lei),
     reporting_year INTEGER NOT NULL,
     scope          INTEGER NOT NULL,   -- 1, 2 or 3
-    basis          TEXT,               -- 'location_based' | 'market_based' | NULL (scope 2)
-    category       TEXT,               -- scope-3 category '1'..'15' | NULL
+    basis          TEXT NOT NULL DEFAULT '',  -- 'location_based' | 'market_based' | '' (scope 2)
+    category       TEXT NOT NULL DEFAULT '',  -- scope-3 category '1'..'15' | ''
     value          REAL,
     unit           TEXT DEFAULT 'tCO2e',
-    source         TEXT,
+    source         TEXT NOT NULL DEFAULT '',
     restated       INTEGER,            -- 0/1
     retrieved_at   TEXT,
     UNIQUE (lei, reporting_year, scope, basis, category, source)
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS FinancialMetrics (
     metric       TEXT NOT NULL,        -- 'revenue' | 'market_cap' | ...
     value        REAL,
     currency     TEXT,
-    source       TEXT,
+    source       TEXT NOT NULL DEFAULT '',
     retrieved_at TEXT,
     UNIQUE (lei, period, metric, source)
 );
