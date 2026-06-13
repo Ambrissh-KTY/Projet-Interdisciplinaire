@@ -7,6 +7,7 @@ SQLite foundation for CAC40 climate / finance / justice data (later).
 ```bash
 python dev/db/migrate.py          # create/upgrade cac40.db from migrations/
 python dev/db/seed_companies.py   # load the 40 companies from the LEI/ISIN CSV
+python dev/db/export_json.py      # dump the DB to dev/interface/data.json for the frontend
 ```
 
 `cac40.db` is NOT in the repo (gitignored), but fully rebuildable from `migrations/` + the seed CSV.
@@ -14,10 +15,11 @@ python dev/db/seed_companies.py   # load the 40 companies from the LEI/ISIN CSV
 ## Schema
 
 - **Company** — dimension, PK = `lei`. Seeded from
-  `dev/finance_data/CAC40_LEI_ISIN_list.csv`. `index_membership` 
+  `dev/finance_data/CAC40_LEI_ISIN_list.csv`. `index_membership`
 - **Emissions** — long-format facts (one row per company/year/scope/basis/
   scope-3 category/source). Empty until I put the data from the API
 - **FinancialMetric** — long-format placeholder, empty until I get the yfinance data or docs.
+- **Court_decision** — one row per legal decision (keyed by `lei`)
 
 Long format means new metrics, years, or scope-3 categories are new *rows*, not
 schema changes. LEIs are used across the board for consistency - you can find them in dev/finance_data/CAC40_LEI_ISIN_list.csv.
@@ -33,7 +35,7 @@ never edit an applied migration once the DB holds real data.
 
 thank you. - Damien
 
-## Pour après - Climate Data Utility (NZDPU) 
+## Pour après - Climate Data Utility (NZDPU)
 
 The **Climate Data Utility / Net-Zero Data Public Utility** is a free, open
 repository of company climate data (CDP-sourced), keyed by **LEI** — which we

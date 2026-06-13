@@ -1,4 +1,4 @@
-html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -100,6 +100,17 @@ function afficher(i) {
   document.getElementById('co2').textContent = e.co2;
   document.getElementById('proces').innerHTML = e.proces.map(p => `<li>${p}</li>`).join('');
 }
+
+// === Données de la base (ajout équipe data) ===
+// Remplit les champs vides ci-dessus avec data.json (généré par dev/db/export_json.py),
+// en associant par LEI. Si data.json est absent, la liste fonctionne quand même.
+fetch('./data.json')
+  .then(r => r.json())
+  .then(data => {
+    const parLei = Object.fromEntries(data.map(d => [d.lei, d]));
+    entreprises.forEach(e => Object.assign(e, parLei[e.lei]));
+  })
+  .catch(() => {});
 </script>
 
 </body>
