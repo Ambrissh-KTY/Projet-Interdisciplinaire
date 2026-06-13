@@ -13,9 +13,9 @@ python dev/db/seed_companies.py   # load the 40 companies from the LEI/ISIN CSV
 
 ## Schema
 
-- **company** — dimension, PK = `lei`. Seeded from
+- **Company** — dimension, PK = `lei`. Seeded from
   `dev/finance_data/CAC40_LEI_ISIN_list.csv`. `index_membership` 
-- **emissions** — long-format facts (one row per company/year/scope/basis/
+- **Emissions** — long-format facts (one row per company/year/scope/basis/
   scope-3 category/source). Empty until I put the data from the API
 - **FinancialMetric** — long-format placeholder, empty until I get the yfinance data or docs.
 
