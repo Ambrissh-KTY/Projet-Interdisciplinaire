@@ -2,13 +2,16 @@
 Par Ambrissh KICHENAMOURTTY, Cyrine BEN MESSAOUD, Noah HORWITZ-CHENIEUX, Oscar BOUDAILLIEZ, Zoé PENG et Damien GEORGES.
 
 Avant exécutions du code, exécutez
-'''zsh
+
+```zsh
 pip install -r requirements.txt
-'''
+```
 
 ## Pitch
 
 ## Structure
+
+```
 
 .
 ├── dev
@@ -20,3 +23,4 @@ pip install -r requirements.txt
 │   └── justice_data
 ├── README.md
 └── requirements.txt
+```
