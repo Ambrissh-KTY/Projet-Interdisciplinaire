@@ -18,7 +18,7 @@ TBA
 .
 ├── dev
 │   ├── climate_data
-│   │   ├── emissions.csv
+│   │   ├── cdu_cac40_cleaned.csv
 │   │   └── load_emissions.py
 │   ├── db
 │   │   ├── CONTRIBUTING_DATA.md
@@ -38,7 +38,11 @@ TBA
 │   ├── interface
 │   │   ├── data.json
 │   │   └── index.html
-│   └── justice_data
+│   ├── justice_data
+│   └── tests
+│       ├── test_co2_per_dividend.py
+│       ├── test_load_emissions.py
+│       └── test_load_finance.py
 ├── README.md
 └── requirements.txt
 ```

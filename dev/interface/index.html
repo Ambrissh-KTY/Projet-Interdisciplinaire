@@ -28,7 +28,7 @@
   </div>
   <div class="bloc">
     <strong>Écologique</strong>
-    <p>Émissions CO2 : <span id="co2"></span></p>
+    <p>Émissions CO2e (en tonnes): <span id="co2"></span></p>
   </div>
   <div class="bloc">
     <strong>Pénal</strong>
@@ -96,10 +96,12 @@ function afficher(i) {
   const e = entreprises[i];
   const euro = v => (v === "" || v == null) ? "" :
     new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(v);
+  const nombre = v => (v === "" || v == null) ? "" :
+    new Intl.NumberFormat('fr-FR').format(v);
   document.getElementById('nom').textContent = e.nom;
   document.getElementById('ca').textContent = euro(e.ca);
   document.getElementById('div').textContent = euro(e.div);
-  document.getElementById('co2').textContent = e.co2;
+  document.getElementById('co2').textContent = nombre(e.co2);
   document.getElementById('proces').innerHTML = e.proces.map(p => `<li>${p}</li>`).join('');
 }
 

@@ -41,7 +41,7 @@ def latest_value(con, metric):
 
 def compute_co2_per_dividend(con):
     """Return {lei: {"value", "rank", "rank_total"}} for CO2e per euro of
-    dividend. value is tCO2e / EUR (no unit conversion). rank 1 = least
+    dividend. value is gCO2e / EUR (emissions stored in tCO2e ×1e6). rank 1 = least
     intensive (lowest ratio); companies missing emissions, missing dividend, or
     with a zero dividend get value=None and rank=None. rank_total counts only
     the companies with a valid ratio. Prints a VERY loud message when data is missing.
@@ -56,12 +56,13 @@ def compute_co2_per_dividend(con):
     # Denominator: each company's most recent dividend.
     dividend = latest_value(con, "dividend")  # lei -> value
 
+    G_PER_TONNE = 1e6   # emissions stored in tCO2e; express the metric in grams/EUR
     leis = [r["lei"] for r in con.execute("SELECT lei FROM company")]
     ratios = {}
     for lei in leis:
         div = dividend.get(lei) or 0
         if lei in emissions and div != 0:
-            ratios[lei] = emissions[lei] / div
+            ratios[lei] = emissions[lei] * G_PER_TONNE / div
 
     # rank 1 = least intensive (lowest ratio).
     ranked = sorted(ratios, key=ratios.get)
@@ -90,6 +91,7 @@ def compute_co2_per_dividend(con):
             "rank": rank.get(lei),
             "rank_total": len(ratios),
             "dividend": dividend.get(lei),
+            "emissions": emissions.get(lei),
         }
         for lei in leis
     }
@@ -121,14 +123,11 @@ def main() -> None:
             data.append({
                 "nom": c["input_name"],
                 "lei": c["lei"],
-                # Empty until FinancialMetrics / Emissions are loaded and metric
-                # keys are fixed. Then replace with e.g.:
-                #   "ca":  latest FinancialMetrics.value WHERE metric='revenue'
-                #   "co2": latest Emissions.value WHERE scope=1
                 "ca": revenue.get(c["lei"]),   # latest annual revenue (EUR), null if absent
                 "div": m["dividend"],   # latest total dividend (EUR), null if absent
-                "co2": "",
-                # tCO2e per euro of dividend. rank 1 = least intensive; null
+                # latest-year Scope 1 + Scope 2 (location-based) total, tCO2e
+                "co2": m["emissions"],
+                # gCO2e per euro of dividend. rank 1 = least intensive; null
                 # value/rank when emissions or dividend data is missing.
                 "co2e_per_eur_dividend": m["value"],
                 "co2e_per_eur_dividend_rank": m["rank"],
