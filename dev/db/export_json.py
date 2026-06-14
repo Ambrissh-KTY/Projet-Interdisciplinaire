@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Export the DB to dev/interface/data.json, shaped for the static frontend.
 
-One object per company: { nom, lei, ca, div, co2, proces }. The frontend (index.html)
-fetches this instead of a hardcoded array. Rerun after seeding/loading data.
+One object per company: { nom, lei, ca, div, co2, proces }. 
 
 Usage: python dev/db/export_json.py
 """
