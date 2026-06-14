@@ -1,6 +1,6 @@
 # Ajouter des données à la base
 
-*Rédigé par Claude parce que Damien Georges n'avait pas le temps*
+*Rédigé en grande partie par Claude parce que Damien n'avait pas le temps*
 
 ---
 
@@ -170,14 +170,21 @@ python -m http.server -d dev/interface
 # http://localhost:8000
 ```
 
-Seul le bloc « Pénal » est branché pour l'instant. CA, dividende et CO2 restent vides jusqu'à ce que les requêtes commentées dans [export_json.py](export_json.py) soient activées.
-
+Le bloc « Pénal » et la métrique **CO2e par euro de dividende** sont branchés.
+Cette métrique s'active toute seule dès que `Emissions` et `FinancialMetrics`
+(`metric='dividend'`) contiennent des données — sinon `export_json.py` affiche
+un avertissement et la sert à `null`. Pour chaque entreprise, le JSON expose
+`co2e_per_eur_dividend` (tCO2e/€, somme des émissions de la dernière année ÷
+dernier dividende), `co2e_per_eur_dividend_rank` (1 = moins intensif) et
+`co2e_per_eur_dividend_rank_total`. Le périmètre des émissions sommées se règle
+via la fonction `include_emission` en tête de [export_json.py](export_json.py)
+(par défaut : toutes).
 ---
 
 ## 7. À ne pas faire
 
 - Ne modifiez pas un fichier `migrations/NNNN_*.sql` existant. Pour modifier le schéma, ajoutez un `migrations/0002_xxx.sql`.
-- Ne committez pas `cac40.db`.
-- N'insérez pas par nom d'entreprise — toujours par LEI.
+- Ne committez pas `cac40.db`, ou TOUT autre fichier qui se finit par `.db`.
+- N'insérez pas par nom d'entreprise — toujours par LEI, sauf si impossible.
 
 ---
