@@ -30,9 +30,10 @@ TBA
 │   │   └── seed_companies.py
 │   ├── finance_data
 │   │   ├── CAC40_LEI_ISIN_list.csv
-│   │   └── csv_generation
-│   │       ├── fetch_tickers.py
-│   │       └── resolve_leis.py
+│   │   ├── csv_generation
+│   │   │   ├── fetch_tickers.py
+│   │   │   └── resolve_leis.py
+│   │   └── load_finance.py
 │   ├── guide.md
 │   ├── interface
 │   │   ├── data.json

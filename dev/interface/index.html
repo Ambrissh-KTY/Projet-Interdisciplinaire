@@ -94,9 +94,11 @@ entreprises.forEach((e, i) => {
 // Affiche les détails à droite
 function afficher(i) {
   const e = entreprises[i];
+  const euro = v => (v === "" || v == null) ? "" :
+    new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(v);
   document.getElementById('nom').textContent = e.nom;
-  document.getElementById('ca').textContent = e.ca;
-  document.getElementById('div').textContent = e.div;
+  document.getElementById('ca').textContent = euro(e.ca);
+  document.getElementById('div').textContent = euro(e.div);
   document.getElementById('co2').textContent = e.co2;
   document.getElementById('proces').innerHTML = e.proces.map(p => `<li>${p}</li>`).join('');
 }

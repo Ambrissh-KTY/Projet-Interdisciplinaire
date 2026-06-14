@@ -28,6 +28,17 @@ def include_emission(row):
     return True
 
 
+def latest_value(con, metric):
+    """{lei: value} for `metric` at each company's most recent period."""
+    best = {}  # lei -> (period, value)
+    for r in con.execute(
+        "SELECT lei, period, value FROM FinancialMetrics WHERE metric = ?", (metric,)
+    ):
+        if r["value"] is not None and r["period"] > best.get(r["lei"], ("", None))[0]:
+            best[r["lei"]] = (r["period"], r["value"])
+    return {lei: v for lei, (_, v) in best.items()}
+
+
 def compute_co2_per_dividend(con):
     """Return {lei: {"value", "rank", "rank_total"}} for CO2e per euro of
     dividend. value is tCO2e / EUR (no unit conversion). rank 1 = least
@@ -42,16 +53,13 @@ def compute_co2_per_dividend(con):
             totals[r["lei"]][r["reporting_year"]] += r["value"]
     emissions = {lei: years[max(years)] for lei, years in totals.items()}
 
-    # Denominator: each company's dividend at its most recent period.
-    dividend = {}  # lei -> (period, value)
-    for r in con.execute("SELECT lei, period, value FROM FinancialMetrics WHERE metric = 'dividend'"):
-        if r["value"] is not None and r["period"] > dividend.get(r["lei"], ("", 0))[0]:
-            dividend[r["lei"]] = (r["period"], r["value"])
+    # Denominator: each company's most recent dividend.
+    dividend = latest_value(con, "dividend")  # lei -> value
 
     leis = [r["lei"] for r in con.execute("SELECT lei FROM company")]
     ratios = {}
     for lei in leis:
-        div = dividend.get(lei, ("", 0))[1]
+        div = dividend.get(lei) or 0
         if lei in emissions and div != 0:
             ratios[lei] = emissions[lei] / div
 
@@ -77,7 +85,12 @@ def compute_co2_per_dividend(con):
         )
 
     return {
-        lei: {"value": ratios.get(lei), "rank": rank.get(lei), "rank_total": len(ratios)}
+        lei: {
+            "value": ratios.get(lei),
+            "rank": rank.get(lei),
+            "rank_total": len(ratios),
+            "dividend": dividend.get(lei),
+        }
         for lei in leis
     }
 
@@ -91,6 +104,7 @@ def main() -> None:
         ).fetchall()
 
         co2_per_div = compute_co2_per_dividend(con)
+        revenue = latest_value(con, "revenue")
 
         data = []
         for c in companies:
@@ -110,10 +124,9 @@ def main() -> None:
                 # Empty until FinancialMetrics / Emissions are loaded and metric
                 # keys are fixed. Then replace with e.g.:
                 #   "ca":  latest FinancialMetrics.value WHERE metric='revenue'
-                #   "div": latest FinancialMetrics.value WHERE metric='dividend'
                 #   "co2": latest Emissions.value WHERE scope=1
-                "ca": "",
-                "div": "",
+                "ca": revenue.get(c["lei"]),   # latest annual revenue (EUR), null if absent
+                "div": m["dividend"],   # latest total dividend (EUR), null if absent
                 "co2": "",
                 # tCO2e per euro of dividend. rank 1 = least intensive; null
                 # value/rank when emissions or dividend data is missing.

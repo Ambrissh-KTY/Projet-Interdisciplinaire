@@ -2,15 +2,27 @@
 
 SQLite foundation for CAC40 climate / finance / justice data (later).
 
-## Build
+## Build — run order
 
 ```bash
-python dev/db/migrate.py          # create/upgrade cac40.db from migrations/
-python dev/db/seed_companies.py   # load the 40 companies from the LEI/ISIN CSV
-python dev/db/export_json.py      # dump the DB to dev/interface/data.json for the frontend
+# 1. schema + companies (always first, in this order)
+python dev/db/migrate.py                  # create/upgrade cac40.db from migrations/
+python dev/db/seed_companies.py           # load the 40 companies from the LEI/ISIN CSV
+
+# 2. data loaders (need step 1; independent of each other, either order)
+python dev/finance_data/load_finance.py   # total dividends from yfinance -> FinancialMetrics
+python dev/climate_data/load_emissions.py # CO2e from emissions.csv -> Emissions
+
+# 3. export (always last, after the loaders)
+python dev/db/export_json.py              # dump the DB to dev/interface/data.json for the frontend
 ```
 
-`cac40.db` is NOT in the repo (gitignored), but fully rebuildable from `migrations/` + the seed CSV.
+Each loader is idempotent (upsert), so re-running is safe. The CO2e/€ metric in
+`export_json.py` needs *both* loaders to have run; with only one it stays `null`
+and prints a warning. `emissions.csv` is a manual NZDPU export — see
+`dev/climate_data/` for the format.
+
+`cac40.db` is NOT in the repo (gitignored), but fully rebuildable from the steps above.
 
 ## Schema
 
