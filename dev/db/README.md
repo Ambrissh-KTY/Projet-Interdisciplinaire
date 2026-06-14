@@ -47,23 +47,3 @@ never edit an applied migration once the DB holds real data.
 
 thank you. - Damien
 
-## Pour après - Climate Data Utility (NZDPU)
-
-The **Climate Data Utility / Net-Zero Data Public Utility** is a free, open
-repository of company climate data (CDP-sourced), keyed by **LEI** — which we
-already have for all 40 companies. It exposes a public REST API.
-
-Planned `dev/climate_data/fetch_nzdpu.py`:
-
-1. Confirm the live API host + paths from the service's `openapi.json`
-   (`climatedatautility.org` / `nzdpu.com`).
-2. For each `company.lei`: fetch disclosures, save the raw JSON to
-   `dev/climate_data/raw/<lei>.json` (so we can reprocess without re-fetching).
-3. Map into `emissions` rows (`source='NZDPU/CDP'`):
-   - Scope 1 → `scope=1`
-   - Scope 2 → `scope=2`, `basis` = location_based / market_based
-   - Scope 3 → `scope=3`, `category` = 1..15
-4. Upsert via the `UNIQUE(lei, reporting_year, scope, basis, category, source)`
-   constraint.
-
-stdlib `urllib.request` should suffice; add `requests` only if auth/retry needs grow.
