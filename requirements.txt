@@ -3,3 +3,6 @@ pathlib
 pandas
 numpy
 yfinance
+argparse
+typing
+requests
