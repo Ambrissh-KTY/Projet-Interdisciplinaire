@@ -44,6 +44,8 @@ http://localhost:8000
 
 ## Structure
 
+```
+
 .
 ├── dev
 │   ├── climate_data
