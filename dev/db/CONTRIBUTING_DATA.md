@@ -170,15 +170,6 @@ python -m http.server -d dev/interface
 # http://localhost:8000
 ```
 
-Le bloc « Pénal » et la métrique **CO2e par euro de dividende** sont branchés.
-Cette métrique s'active toute seule dès que `Emissions` et `FinancialMetrics`
-(`metric='dividend'`) contiennent des données — sinon `export_json.py` affiche
-un avertissement et la sert à `null`. Pour chaque entreprise, le JSON expose
-`co2e_per_eur_dividend` (tCO2e/€, somme des émissions de la dernière année ÷
-dernier dividende), `co2e_per_eur_dividend_rank` (1 = moins intensif) et
-`co2e_per_eur_dividend_rank_total`. Le périmètre des émissions sommées se règle
-via la fonction `include_emission` en tête de [export_json.py](export_json.py)
-(par défaut : toutes).
 ---
 
 ## 7. À ne pas faire

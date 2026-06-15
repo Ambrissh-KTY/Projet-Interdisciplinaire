@@ -1,20 +1,51 @@
-# Projet-Interdisciplinaire
+# ECO<sub>S</sub>INT
 
-Par Ambrissh KICHENAMOURTTY, Cyrine BEN MESSAOUD, Noah HORWITZ-CHENIEUX, Oscar BOUDAILLIEZ, Zoé PENG et Damien GEORGES.
+Par Cyrine BEN MESSAOUD, Oscar BOUDAILLIEZ, Damien GEORGES, Noah HORWITZ--CHENIEUX, Ambrissh KICHENAMOURTTY et Zoé PENG.
 
-Avant exécutions du code, exécutez
+## Pitch
+
+Our project aggregates data about CAC40 companies to display revenue, dividends paid to shareholders, court cases relating to environmental violations, and publicly-reported emissions data to display the environmental cost of their operations and its varying intensity depending on the company.
+
+## Build — run order
+
+Before building the database, run:
 
 ```zsh
 pip install -r requirements.txt
 ```
 
-## Pitch
+Then, follow these steps:
 
-TBA
+```bash
+# 1. schema + companies (always first, in this order)
+python dev/db/migrate.py                  # create/upgrade cac40.db from migrations/
+python dev/db/seed_companies.py           # load the 40 companies from the LEI/ISIN CSV
+
+# 2. data loaders (need step 1; independent of each other, either order)
+python dev/finance_data/load_finance.py    # total dividends from yfinance -> FinancialMetrics
+python dev/climate_data/load_emissions.py  # CDU export -> Emissions (latest year, no projections)
+
+# 3. export (always last, after the loaders)
+python dev/db/export_json.py 
+```
+
+Finally, to display the dashboard in your browser, run:
+
+```zsh
+python -m http.server -d dev/interface
+```
+
+then go to
+
+```
+http://localhost:8000
+```
+
 
 ## Structure
 
 ```
+
 .
 ├── dev
 │   ├── climate_data
