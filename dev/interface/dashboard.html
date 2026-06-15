@@ -109,6 +109,7 @@
 <script src="./chart.umd.min.js"></script>
 <script>
 // --- theme: default to OS preference, persist choice, retheme charts on toggle ---
+const charts = [];   // declared before setTheme() runs (it references charts)
 const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 function setTheme(t) {
   document.documentElement.dataset.theme = t;
@@ -132,7 +133,6 @@ function intensityColor(v, alpha = 1) {            // green (low) -> red (high),
   return `hsl(${120 * (1 - t)} 70% 45% / ${alpha})`;
 }
 
-const charts = [];
 // push current theme colors into Chart.js defaults + each chart's fixed strokes/grids
 function applyChartTheme() {
   const ink = cssVar('--ink'), grid = cssVar('--grid'), fixed = cssVar('--fixed');
@@ -319,7 +319,7 @@ function highlight(barChart, scatterChart, lei) {
   barChart.data.datasets[0].borderWidth = sortedBar.map(c => c.lei === lei ? 3 : 0);
   barChart.update();
   const ds = scatterChart.data.datasets[0];
-  ds.data.forEach(p => { p.r = p.c.lei === lei ? radius(p.c) + 7 : radius(p.c); });
+  // ponytail: radius encodes CA only — never resize on select; emphasis = border only
   ds.borderWidth = ds.data.map(p => p.c.lei === lei ? 3 : 1);
   scatterChart.update();
 }
