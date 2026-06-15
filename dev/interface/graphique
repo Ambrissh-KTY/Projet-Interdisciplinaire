@@ -1,0 +1,124 @@
+const ANNEES = [2018, 2019, 2020, 2021, 2022];
+
+function parseNum(val) {
+  if (!val || val.trim() === '') return null;
+  return parseFloat(val.replace(/,/g, ''));
+}
+
+function initGraphiqueEmissions(nomEntreprise) {
+  Papa.parse('cdu_cac40_cleaned.csv', {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      const row = results.data.find(r =>
+        r['Company'].toLowerCase().includes(nomEntreprise.toLowerCase())
+      );
+      if (!row) { console.error('Entreprise non trouvée'); return; }
+
+      const valeurs = ANNEES.map(a => parseNum(row[String(a)]));
+
+      const ctx = document.getElementById('graphique-emissions').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ANNEES,
+          datasets: [{
+            label: 'Émissions Scope 1+2 (tCO₂e)',
+            data: valeurs,
+            borderColor: '#378ADD',
+            backgroundColor: '#E6F1FB',
+            fill: true,
+            tension: 0.3,
+            spanGaps: true,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: `Évolution des émissions — ${row['Company']}`,
+              font: { size: 16, weight: '500' }
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => ctx.parsed.y == null
+                  ? 'données manquantes'
+                  : new Intl.NumberFormat('fr-FR').format(ctx.parsed.y) + ' tCO₂e'
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: {
+                callback: v => new Intl.NumberFormat('fr-FR', {
+                  notation: 'compact'
+                }).format(v)
+              }
+            }
+          }
+        }
+      });
+    }
+  });
+}
+
+function initGraphiqueScope(nomEntreprise) {
+  Papa.parse('cdu_cac40_cleaned.csv', {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      const row = results.data.find(r =>
+        r['Company'].toLowerCase().includes(nomEntreprise.toLowerCase())
+      );
+      if (!row) return;
+
+      const scope1 = parseNum(row['Scope 1']);
+      const scope2 = parseNum(row['Scope 2 (location-based)']);
+
+      const ctx = document.getElementById('graphique-scope').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Scope 1', 'Scope 2 (location-based)'],
+          datasets: [{
+            data: [scope1, scope2],
+            backgroundColor: ['#378ADD', '#9FE1CB'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: `Répartition des émissions — ${row['Company']}`,
+              font: { size: 16, weight: '500' }
+            },
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => new Intl.NumberFormat('fr-FR').format(ctx.parsed.y) + ' tCO₂e'
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: v => new Intl.NumberFormat('fr-FR', {
+                  notation: 'compact'
+                }).format(v)
+              }
+            }
+          }
+        }
+      });
+    }
+  });
+}
