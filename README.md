@@ -66,7 +66,14 @@ http://localhost:8000
 │   │   └── load_finance.py
 │   ├── guide.md
 │   ├── interface
+│   │   ├── cdu_cac40_cleaned.csv
+│   │   ├── chart.umd.min.js
+│   │   ├── dashboard.html
 │   │   ├── data.json
+│   │   ├── emissions_cac40_barplot.png
+│   │   ├── emissions_scope.png
+│   │   ├── graph_test.html
+│   │   ├── graphique
 │   │   └── index.html
 │   ├── justice_data
 │   └── tests
