@@ -84,4 +84,4 @@ http://localhost:8000
 └── requirements.txt
 ```
 
-See [dev/db/README.md](dev/db/README.md) for more information about the database.
+See [dev/db/README.md](dev/db/README.md) for more information about the database structure.
