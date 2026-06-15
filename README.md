@@ -1,4 +1,4 @@
-# ECO<sub>2</sub>INT
+# ECO<sub>S</sub>INT
 
 Par Cyrine BEN MESSAOUD, Oscar BOUDAILLIEZ, Damien GEORGES, Noah HORWITZ--CHENIEUX, Ambrissh KICHENAMOURTTY et Zoé PENG.
 
