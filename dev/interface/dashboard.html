@@ -7,15 +7,32 @@
 <style>
   :root {
     --bg: #f4f6f9; --card: #fff; --ink: #1c2530; --muted: #6b7785;
-    --line: #e3e8ee; --accent: #2563eb; --shadow: 0 1px 3px rgba(20,30,50,.08), 0 6px 18px rgba(20,30,50,.06);
+    --line: #e3e8ee; --accent: #2563eb;
+    --input-bg: #fff; --fixed: #1c2530;               /* bar/trend stroke, ticks */
+    --grid: rgba(20,30,50,.08);
+    --shadow: 0 1px 3px rgba(20,30,50,.08), 0 6px 18px rgba(20,30,50,.06);
+    --err-bg: #fde8e8; --err-ink: #9b1c1c; --err-line: #f5c2c2;
+  }
+  [data-theme="dark"] {
+    --bg: #0f141a; --card: #171e27; --ink: #e6edf3; --muted: #8b98a5;
+    --line: #232c38; --accent: #4d8bff;
+    --input-bg: #0f141a; --fixed: #e6edf3;
+    --grid: rgba(230,237,243,.10);
+    --shadow: 0 1px 3px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35);
+    --err-bg: #2a1416; --err-ink: #f3b0b0; --err-line: #5a2326;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    transition: background .2s, color .2s; }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 20px 60px; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
   header h1 { margin: 0 0 4px; font-size: 24px; }
   header p { margin: 0; color: var(--muted); font-size: 14px; }
   header a { color: var(--accent); text-decoration: none; }
+  #theme-toggle { flex: none; cursor: pointer; border: 1px solid var(--line);
+    background: var(--card); color: var(--ink); border-radius: 999px;
+    padding: 8px 14px; font-size: 14px; box-shadow: var(--shadow); }
 
   .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 22px 0; }
   .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
@@ -34,7 +51,7 @@
   #box-scatter { height: 440px; }
 
   select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px;
-    font-size: 14px; background: #fff; margin-bottom: 14px; }
+    font-size: 14px; background: var(--input-bg); color: var(--ink); margin-bottom: 14px; }
   .row { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
   .row:last-child { border-bottom: none; }
   .row .k { color: var(--muted); }
@@ -45,7 +62,7 @@
   .scale-note { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; margin-top: 8px; }
   .scale-bar { height: 8px; width: 120px; border-radius: 4px;
     background: linear-gradient(90deg, hsl(120 70% 45%), hsl(60 70% 45%), hsl(0 70% 45%)); }
-  #erreur { background: #fde8e8; color: #9b1c1c; border: 1px solid #f5c2c2;
+  #erreur { background: var(--err-bg); color: var(--err-ink); border: 1px solid var(--err-line);
     border-radius: 10px; padding: 14px 16px; margin-top: 20px; }
   @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2,1fr); } }
 </style>
@@ -53,9 +70,12 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>CAC 40 — Climat &amp; finance</h1>
-    <p>Intensité carbone = émissions Scope 1+2 (tCO₂e) par euro de dividende versé, en gCO₂e/€.
-       &nbsp;·&nbsp; <a href="index.html">Vue simple →</a></p>
+    <div>
+      <h1>CAC 40 — Climat &amp; finance</h1>
+      <p>Intensité carbone = émissions Scope 1+2 (tCO₂e) par euro de dividende versé, en gCO₂e/€.
+         &nbsp;·&nbsp; <a href="index.html">Vue simple →</a></p>
+    </div>
+    <button id="theme-toggle" aria-label="Basculer le thème"></button>
   </header>
 
   <section class="kpis" id="kpis"></section>
@@ -88,6 +108,19 @@
 
 <script src="./chart.umd.min.js"></script>
 <script>
+// --- theme: default to OS preference, persist choice, retheme charts on toggle ---
+const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  document.getElementById('theme-toggle').textContent = t === 'dark' ? '☀ Clair' : '🌙 Sombre';
+  localStorage.setItem('theme', t);
+  if (window.Chart) { applyChartTheme(); charts.forEach(c => c.update()); }
+}
+const saved = localStorage.getItem('theme');
+setTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+document.getElementById('theme-toggle').onclick = () =>
+  setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+
 const euros   = v => v == null ? "—" : new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR', maximumFractionDigits:0 }).format(v);
 const nombre  = v => v == null ? "—" : new Intl.NumberFormat('fr-FR', { maximumFractionDigits:0 }).format(v);
 const decimal = v => v == null ? "—" : new Intl.NumberFormat('fr-FR', { maximumFractionDigits:2 }).format(v);
@@ -97,6 +130,22 @@ let logMin, logMax;
 function intensityColor(v, alpha = 1) {            // green (low) -> red (high), log-scaled
   const t = (Math.log(v) - logMin) / (logMax - logMin);
   return `hsl(${120 * (1 - t)} 70% 45% / ${alpha})`;
+}
+
+const charts = [];
+// push current theme colors into Chart.js defaults + each chart's fixed strokes/grids
+function applyChartTheme() {
+  const ink = cssVar('--ink'), grid = cssVar('--grid'), fixed = cssVar('--fixed');
+  Chart.defaults.color = ink;
+  Chart.defaults.borderColor = grid;
+  for (const c of charts) {
+    for (const ax of Object.values(c.options.scales || {})) {
+      if (ax.grid)  ax.grid.color = grid;
+      if (ax.ticks) ax.ticks.color = ink;
+      if (ax.title) ax.title.color = ink;
+    }
+    if (c._fixedStroke) c._fixedStroke(fixed);  // set per chart below
+  }
 }
 
 fetch('data.json')
@@ -119,6 +168,9 @@ function build(companies) {
   const barChart = buildBar(companies);
   const scatterChart = buildScatter(companies);
   buildPicker(companies);
+
+  applyChartTheme();
+  barChart.update(); scatterChart.update();
 
   let selected = null;
   window.select = function (c) {
@@ -153,14 +205,14 @@ function kpis(companies) {
 let sortedBar;
 function buildBar(companies) {
   sortedBar = [...companies].sort((a, b) => a.co2e_per_eur_dividend - b.co2e_per_eur_dividend);
-  return new Chart(document.getElementById('barChart'), {
+  const chart = new Chart(document.getElementById('barChart'), {
     type: 'bar',
     data: {
       labels: sortedBar.map(c => c.nom),
       datasets: [{
         data: sortedBar.map(c => c.co2e_per_eur_dividend),
         backgroundColor: sortedBar.map(c => intensityColor(c.co2e_per_eur_dividend, 0.85)),
-        borderColor: '#1c2530', borderWidth: sortedBar.map(() => 0),
+        borderColor: cssVar('--fixed'), borderWidth: sortedBar.map(() => 0),
       }],
     },
     options: {
@@ -174,6 +226,9 @@ function buildBar(companies) {
       onClick: (e, els) => { if (els[0]) select(sortedBar[els[0].index]); },
     },
   });
+  chart._fixedStroke = c => { chart.data.datasets[0].borderColor = c; };
+  charts.push(chart);
+  return chart;
 }
 
 let radius;
@@ -193,7 +248,7 @@ function buildScatter(companies) {
   const trendY = x => Math.exp(slope * Math.log(x) + intercept);
   const trend = [{ x: x0, y: trendY(x0) }, { x: x1, y: trendY(x1) }];
 
-  return new Chart(document.getElementById('scatterChart'), {
+  const chart = new Chart(document.getElementById('scatterChart'), {
     type: 'bubble',
     data: {
       datasets: [{
@@ -204,7 +259,7 @@ function buildScatter(companies) {
         borderWidth: companies.map(() => 1),
       }, {
         type: 'line', label: 'Tendance', data: trend,
-        borderColor: '#1c2530', borderDash: [6, 4], borderWidth: 1.5,
+        borderColor: cssVar('--fixed'), borderDash: [6, 4], borderWidth: 1.5,
         pointRadius: 0, fill: false,
       }],
     },
@@ -230,6 +285,9 @@ function buildScatter(companies) {
       onClick: (e, els) => { const el = els.find(x => x.datasetIndex === 0); if (el) select(companies[el.index]); },
     },
   });
+  chart._fixedStroke = c => { chart.data.datasets[1].borderColor = c; };
+  charts.push(chart);
+  return chart;
 }
 
 function buildPicker(companies) {
