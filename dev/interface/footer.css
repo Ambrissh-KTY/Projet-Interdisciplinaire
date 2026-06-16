@@ -1,0 +1,19 @@
+#footer {
+    background-color: #4A4E69;
+    color: #D6D1D5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 4vw;
+}
+
+#footer div {
+    text-align: justify;
+    margin: 1vw;
+    width: 42.5%;
+}
+
+.f-titres {
+    font-size: 2.5vw;
+    margin: 0;
+}
