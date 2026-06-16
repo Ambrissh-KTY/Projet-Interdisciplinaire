@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Moteur de recherche entreprises</title>
+<style>
+  body { font-family: sans-serif; display: flex; gap: 20px; padding: 20px; }
+  #liste { width: 220px; border: 1px solid #ccc; padding: 10px; max-height: 90vh; overflow-y: auto; }
+  #liste div { padding: 8px; cursor: pointer; border-radius: 4px; }
+  #liste div:hover { background: #eee; }
+  #detail { flex: 1; border: 1px solid #ccc; padding: 20px; }
+  .bloc { padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+  #accueil { color: #888; }
+</style>
+</head>
+<body>
+
+<div id="liste">
+  <h3>CAC40</h3>
+</div>
+
+<div id="detail">
+  <p id="accueil">Sélectionnez une entreprise</p>
+  <div id="contenu" style="display:none">
+    <h2 id="nom"></h2>
+    <div class="bloc">
+      <strong>Financier</strong>
+      <p>Chiffre d'affaires : <span id="ca"></span></p>
+      <p>Dividende total : <span id="div"></span></p>
+    </div>
+    <div class="bloc">
+      <strong>Écologique</strong>
+      <p>Émissions CO2e (Scope 1+2) : <span id="co2"></span> tCO2e</p>
+      <p>CO2e par € de dividende : <span id="co2div"></span> gCO2e/€</p>
+      <p>Classement pollution : <span id="rang"></span></p>
+    </div>
+    <div class="bloc">
+      <strong>Pénal</strong>
+      <p>Condamnations : <span id="proces"></span></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const euros = v => v == null ? "données manquantes" :
+  new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v);
+
+const nombre = v => v == null ? "données manquantes" :
+  new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(v);
+
+const decimal = v => v == null ? "données manquantes" :
+  new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(v);
+
+fetch('data.json')
+  .then(r => r.json())
+  .then(entreprises => {
+    const liste = document.getElementById('liste');
+    entreprises.forEach((e, i) => {
+      const div = document.createElement('div');
+      div.textContent = e.nom;
+      div.onclick = () => afficher(e);
+      liste.appendChild(div);
+    });
+
+    function afficher(e) {
+      document.getElementById('accueil').style.display = 'none';
+      document.getElementById('contenu').style.display = 'block';
+      document.getElementById('nom').textContent = e.nom;
+      document.getElementById('ca').textContent = euros(e.ca);
+      document.getElementById('div').textContent = euros(e.div);
+      document.getElementById('co2').textContent = nombre(e.co2);
+      document.getElementById('co2div').textContent = decimal(e.co2e_per_eur_dividend);
+      const rang = e.co2e_per_eur_dividend_rank;
+      const total = e.co2e_per_eur_dividend_rank_total;
+      document.getElementById('rang').textContent =
+        rang == null ? "données manquantes" : `${rang} / ${total} (1 = moins polluant)`;
+      document.getElementById('proces').textContent = e.proces ? e.proces.length : 0;
+    }
+  })
+  .catch(() => {
+    document.getElementById('accueil').textContent = "Erreur : impossible de charger data.json";
+  });
+</script>
+
+</body>
+</html>
