@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    background: #22223B;
+    color: white;
+}
+
+/* =========================
+   NAVBAR (DESKTOP)
+========================= */
+.navbar {
+    height: 114px;
+    background: #4A4E69;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: 700;
+    color: #D6D1D5;
+}
+
+.search {
+    width: 50%;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+}
+
+/* burger */
+.burger div {
+    width: 35px;
+    height: 5px;
+    background: #D9D9D9;
+    margin: 6px 0;
+}
+
+/* =========================
+   HERO (DESKTOP)
+========================= */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 100px;
+    color: #D6D1D5;
+    margin: 0;
+}
+
+/* =========================
+   CARDS (DESKTOP)
+========================= */
+.cards {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    padding: 60px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #D9D9D9;
+    color: #22223B;
+    width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* images */
+.card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* =========================
+   FOOTER (DESKTOP)
+========================= */
+.footer {
+    background: #4A4E69;
+    display: flex;
+    justify-content: space-between;
+    padding: 60px;
+    margin-top: 100px;
+}
+
+.footer h3 {
+    color: white;
+}
+
+.footer p {
+    color: #D6D1D5;
+}
+
+/* ======================================================
+    MOBILE
+====================================================== */
+@media (max-width: 768px) {
+
+    .navbar {
+        height: 70px;
+        padding: 0 15px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .search {
+        width: 55%;
+        height: 30px;
+    }
+
+    .hero {
+        padding: 40px 10px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+        line-height: 1.1;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .card {
+        width: 95%;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        padding: 30px;
+    }
+}
