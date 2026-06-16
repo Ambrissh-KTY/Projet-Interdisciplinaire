@@ -10,6 +10,7 @@ import json
 import sqlite3
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 DB_PATH = Path(__file__).parent / "cac40.db"
@@ -29,14 +30,23 @@ def include_emission(row):
 
 
 def latest_value(con, metric):
-    """{lei: value} for `metric` at each company's most recent period."""
-    best = {}  # lei -> (period, value)
+    """{lei: latest COMPLETE-year figure} for `metric`. Groups periods by calendar year
+    (annual 'YYYY' or quarterly 'YYYY-Qn'), sums each year, and takes the most recent year
+    that is fully past — so an annual metric is the latest year and a quarterly one (e.g.
+    dividends stored per quarter) is annualized without summing across years or counting the
+    in-progress current year (which would understate quarterly dividend payers)."""
+    cur_year = datetime.now(timezone.utc).year
+    by_year = defaultdict(lambda: defaultdict(float))  # lei -> year -> sum
     for r in con.execute(
         "SELECT lei, period, value FROM FinancialMetrics WHERE metric = ?", (metric,)
     ):
-        if r["value"] is not None and r["period"] > best.get(r["lei"], ("", None))[0]:
-            best[r["lei"]] = (r["period"], r["value"])
-    return {lei: v for lei, (_, v) in best.items()}
+        if r["value"] is not None:
+            by_year[r["lei"]][int(r["period"][:4])] += r["value"]
+    out = {}
+    for lei, years in by_year.items():
+        complete = [y for y in years if y < cur_year]
+        out[lei] = years[max(complete) if complete else max(years)]  # fall back if only current year
+    return out
 
 
 def compute_co2_per_dividend(con):

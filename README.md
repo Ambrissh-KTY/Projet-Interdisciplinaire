@@ -22,7 +22,7 @@ python dev/db/migrate.py                  # create/upgrade cac40.db from migrati
 python dev/db/seed_companies.py           # load the 40 companies from the LEI/ISIN CSV
 
 # 2. data loaders (need step 1; independent of each other, either order)
-python dev/finance_data/load_finance.py    # total dividends from yfinance -> FinancialMetrics
+python dev/finance_data/load_finance.py    # yfinance -> FinancialMetrics (annual revenue/profit + quarterly dividends since 2018)
 python dev/climate_data/load_emissions.py  # CDU export -> Emissions (latest year, no projections)
 
 # 3. export (always last, after the loaders)
