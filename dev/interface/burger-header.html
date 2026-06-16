@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOsINT - Header & Menu</title>
+    <style>
+        /* Importation de la police locale Aktiv Grotesk */
+        @font-face {
+            font-family: 'Aktiv Grotesk';
+            src: url('dev/misc/TTF/AktivGrotesk-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Aktiv Grotesk';
+            src: url('dev/misc/TTF/AktivGrotesk-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Aktiv Grotesk', system-ui, -apple-system, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* HEADER */
+        .site-header {
+            background-color: #3b4356;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Bouton Burger */
+        .burger-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 5px;
+        }
+
+        .burger-btn span {
+            width: 24px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+        }
+
+        /* Logo ECOsINT */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            user-select: none;
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 36px;
+            padding: 0 40px 0 12px;
+            border-radius: 6px;
+            border: 1px solid #b0b5c1;
+            background-color: #e2e4e8;
+            color: #1c2530;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #556070;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #1c2530;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+
+        /* SIDEBAR & OVERLAY */
+        .menu-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            background-color: rgba(0, 0, 0, 0.25);
+            z-index: 900;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 60px);
+            background-color: #1e2530;
+            color: #ffffff;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-menu.open {
+            transform: translateX(0);
+        }
+
+        .menu-title {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-line {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 8px;
+        }
+
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            line-height: 1.4;
+            transition: opacity 0.2s ease;
+        }
+
+        .menu-links a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-left">
+            <button class="burger-btn" id="burger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="#" class="logo">ECOsINT</a>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Rechercher une entreprise...">
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+    </header>
+
+    <!-- OVERLAY & SIDEBAR -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <nav class="sidebar-menu" id="sidebar-menu">
+        <div class="menu-title">Menu</div>
+        <div class="menu-line"></div>
+        <div class="menu-links">
+            <a href="#">Page d'accueil</a>
+            <a href="#">Présentation du projet</a>
+            <a href="#">Télécharger les données</a>
+        </div>
+    </nav>
+
+    <!-- SCRIPT SIMPLIFIÉ -->
+    <script>
+        const $ = id => document.getElementById(id);
+        const btn = $('burger-btn'), menu = $('sidebar-menu'), overlay = $('menu-overlay');
+
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('open');
+            overlay.classList.toggle('active');
+        };
+
+        overlay.onclick = () => {
+            menu.classList.remove('open');
+            overlay.classList.remove('active');
+        };
+    </script>
+</body>
+
+</html>
