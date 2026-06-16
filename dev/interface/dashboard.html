@@ -57,7 +57,6 @@
   .row .k { color: var(--muted); }
   .row .v { font-weight: 600; text-align: right; }
   .rang-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; color: #fff; font-size: 13px; }
-  #proces { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--ink); }
   .empty { color: var(--muted); font-style: italic; }
   .scale-note { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; margin-top: 8px; }
   .scale-bar { height: 8px; width: 120px; border-radius: 4px;
@@ -302,9 +301,7 @@ function detail(c) {
   const rang = c.co2e_per_eur_dividend_rank, total = c.co2e_per_eur_dividend_rank_total;
   const badge = rang == null ? '<span class="empty">données manquantes</span>'
     : `<span class="rang-badge" style="background:${intensityColor(c.co2e_per_eur_dividend)}">${rang} / ${total}</span> <span class="empty">(1 = moins polluant)</span>`;
-  const proces = !c.proces || c.proces.length === 0
-    ? '<p class="empty">Aucune procédure recensée</p>'
-    : '<ul id="proces">' + c.proces.map(p => `<li>${p}</li>`).join('') + '</ul>';
+  const condamnations = c.proces ? c.proces.length : 0;
   document.getElementById('detail-body').innerHTML = `
     <h3 style="margin:4px 0 10px">${c.nom}</h3>
     <div class="row"><span class="k">Chiffre d'affaires</span><span class="v">${euros(c.ca)}</span></div>
@@ -312,7 +309,7 @@ function detail(c) {
     <div class="row"><span class="k">Émissions Scope 1+2</span><span class="v">${nombre(c.co2)} tCO₂e</span></div>
     <div class="row"><span class="k">Intensité carbone</span><span class="v">${decimal(c.co2e_per_eur_dividend)} gCO₂e/€</span></div>
     <div class="row"><span class="k">Classement</span><span class="v">${badge}</span></div>
-    <div style="margin-top:10px"><span class="k" style="font-size:13px">Procédures judiciaires</span>${proces}</div>`;
+    <div class="row"><span class="k">Condamnations</span><span class="v">${condamnations}</span></div>`;
 }
 
 function highlight(barChart, scatterChart, lei) {

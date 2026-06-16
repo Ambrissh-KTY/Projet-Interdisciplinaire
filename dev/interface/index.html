@@ -36,7 +36,7 @@
     </div>
     <div class="bloc">
       <strong>Pénal</strong>
-      <ul id="proces"></ul>
+      <p>Condamnations : <span id="proces"></span></p>
     </div>
   </div>
 </div>
@@ -74,10 +74,7 @@ fetch('data.json')
       const total = e.co2e_per_eur_dividend_rank_total;
       document.getElementById('rang').textContent =
         rang == null ? "données manquantes" : `${rang} / ${total} (1 = moins polluant)`;
-      document.getElementById('proces').innerHTML =
-        e.proces.length === 0
-          ? '<li>Aucune procédure recensée</li>'
-          : e.proces.map(p => `<li>${p}</li>`).join('');
+      document.getElementById('proces').textContent = e.proces ? e.proces.length : 0;
     }
   })
   .catch(() => {
