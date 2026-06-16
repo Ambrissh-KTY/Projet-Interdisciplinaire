@@ -8,5 +8,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/upload-pages-artifact@v3
-        with: { path: dev/interface }
+        with: { path: dev/interface/dashboard.html }
       - uses: actions/deploy-pages@v4
