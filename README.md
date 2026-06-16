@@ -51,6 +51,7 @@ http://localhost:8000
 │   │   ├── cdu_cac40_cleaned.csv
 │   │   └── load_emissions.py
 │   ├── db
+│   │   ├── cac40_combined.csv
 │   │   ├── CONTRIBUTING_DATA.md
 │   │   ├── export_json.py
 │   │   ├── migrate.py
@@ -66,17 +67,64 @@ http://localhost:8000
 │   │   └── load_finance.py
 │   ├── guide.md
 │   ├── interface
+│   │   ├── burger-header.html
 │   │   ├── cdu_cac40_cleaned.csv
 │   │   ├── chart.umd.min.js
 │   │   ├── data.json
 │   │   ├── emissions_cac40_barplot.png
 │   │   ├── emissions_scope.png
+│   │   ├── footer.css
+│   │   ├── footer.html
 │   │   ├── graph_test.html
 │   │   ├── graphique
 │   │   ├── index.html
+│   │   ├── logo cac40
+│   │   │   ├── accor.png
+│   │   │   ├── airbus.png
+│   │   │   ├── airliquide.png
+│   │   │   ├── alstom.png
+│   │   │   ├── arcelormittal.png
+│   │   │   ├── axa.png
+│   │   │   ├── bnp.png
+│   │   │   ├── bouygues.png
+│   │   │   ├── CA.png
+│   │   │   ├── capgemini.png
+│   │   │   ├── carrefour.png
+│   │   │   ├── danone.jpeg
+│   │   │   ├── dassault_system.png
+│   │   │   ├── edenred.png
+│   │   │   ├── edf.png
+│   │   │   ├── engie.png
+│   │   │   ├── essilor.png
+│   │   │   ├── eurofins.png
+│   │   │   ├── hermes.png
+│   │   │   ├── kering.png
+│   │   │   ├── legrand.png
+│   │   │   ├── loreal.png
+│   │   │   ├── lvmh.png
+│   │   │   ├── michelin.png
+│   │   │   ├── orange.png
+│   │   │   ├── pernod ricard.png
+│   │   │   ├── publicis.png
+│   │   │   ├── renault.png
+│   │   │   ├── safran.png
+│   │   │   ├── saintgobain.png
+│   │   │   ├── sanofi.png
+│   │   │   ├── schneiderelectric.png
+│   │   │   ├── sg.png
+│   │   │   ├── stellantis.png
+│   │   │   ├── STMICROELECTRONICS.png
+│   │   │   ├── TELEPERFORMANCE.png
+│   │   │   ├── thales.png
+│   │   │   ├── TotalEnergies.jpeg
+│   │   │   ├── UNIBAIL-RODAMCO-WESTFIELD.jpeg
+│   │   │   ├── VEOLIA.png
+│   │   │   ├── VINCI.png
+│   │   │   └── VIVENDI.png
+│   │   ├── test.html
 │   │   └── vue-simple.html
 │   ├── justice_data
-│   │   └── justice_data_import.py
+│   │   └── justice_data_import.py
 │   ├── misc
 │   └── tests
 │       ├── test_co2_per_dividend.py
