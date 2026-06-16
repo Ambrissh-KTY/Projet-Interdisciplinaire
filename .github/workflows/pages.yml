@@ -1,0 +1,12 @@
+name: Deploy interface
+on: { push: { branches: [main] } }
+permissions: { pages: write, id-token: write }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dev/interface }
+      - uses: actions/deploy-pages@v4
