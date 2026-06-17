@@ -48,6 +48,20 @@ def latest_value(con, metric):
         out[lei] = years[max(complete) if complete else max(years)]  # fall back if only current year
     return out
 
+def history_values(con, metric):
+    """{lei: {year: value}} — all complete years for `metric`."""
+    cur_year = datetime.now(timezone.utc).year
+    by_year = defaultdict(lambda: defaultdict(float))
+    for r in con.execute(
+        "SELECT lei, period, value FROM FinancialMetrics WHERE metric = ?", (metric,)
+    ):
+        if r["value"] is not None:
+            by_year[r["lei"]][int(r["period"][:4])] += r["value"]
+    out = {}
+    for lei, years in by_year.items():
+        out[lei] = {y: years[y] for y in sorted(years) if y < cur_year}
+    return out
+
 
 def compute_co2_per_dividend(con):
     """Return {lei: {"value", "rank", "rank_total"}} for CO2e per euro of
@@ -117,6 +131,8 @@ def main() -> None:
 
         co2_per_div = compute_co2_per_dividend(con)
         revenue = latest_value(con, "revenue")
+        revenue_history = history_values(con, "revenue")
+        dividend_history = history_values(con, "dividend")
 
         data = []
         for c in companies:
@@ -143,6 +159,8 @@ def main() -> None:
                 "co2e_per_eur_dividend_rank": m["rank"],
                 "co2e_per_eur_dividend_rank_total": m["rank_total"],
                 "proces": proces,
+                "ca_history": revenue_history.get(c["lei"], {}),
+                "div_history": dividend_history.get(c["lei"], {}),
             })
 
         OUT_PATH.write_text(
