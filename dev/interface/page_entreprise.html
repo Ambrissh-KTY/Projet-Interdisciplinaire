@@ -7,10 +7,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: sans-serif; background: #2d3250; display: flex; height: 100vh; overflow: hidden; color: white; }
+  body { font-family: sans-serif; background: #2d3250; display: flex; flex-direction: column; height: 100vh; overflow: hidden; color: white; }
   .page { display: flex; flex: 1; flex-direction: column; }
 
-  .bande { background: #3d4466; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  
+
   .bande-nom { font-size: 20px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #888; }
   .bande-secteur { font-size: 11px; color: #aaa; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
   .logo-bande { height: 50px; object-fit: contain; background: white; border-radius: 4px; padding: 4px; }
@@ -46,9 +47,39 @@
   .comp-item { padding: 8px 14px; font-size: 12px; cursor: pointer; color: #ccc; border-bottom: 1px solid #2a2e50; }
   .comp-item:hover { background: #2a3060; color: white; }
   .comp-item.selected { color: white; font-weight: 500; background: #2a3060; }
+#menu-overlay.active { opacity: 1 !important; visibility: visible !important; }
+#sidebar-menu.open { transform: translateX(0) !important; }
+.bande { background: #3d4466; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 </style>
 </head>
 <body>
+  <header class="site-header" style="background:#424357;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:1100;flex-shrink:0;">
+  <div style="display:flex;align-items:center;gap:20px;">
+    <button id="burger-btn" style="background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:5px;">
+      <span style="width:24px;height:3px;background:white;border-radius:2px;display:block;"></span>
+      <span style="width:24px;height:3px;background:white;border-radius:2px;display:block;"></span>
+      <span style="width:24px;height:3px;background:white;border-radius:2px;display:block;"></span>
+    </button>
+    <a href="acceuil_version_finale.html" style="font-size:24px;font-weight:bold;color:white;text-decoration:none;">ECOsINT</a>
+  </div>
+  <div style="position:relative;width:100%;max-width:400px;">
+    <input type="text" id="search-input" placeholder="Rechercher une entreprise..." style="width:100%;height:36px;padding:0 40px 0 12px;border-radius:6px;border:1px solid #b0b5c1;background:#e2e4e8;color:#1c2530;font-size:14px;outline:none;">
+    <svg style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:none;stroke:#1c2530;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <div id="suggestions" style="position:absolute;top:36px;left:0;right:0;background:white;border-radius:0 0 6px 6px;max-height:200px;overflow-y:auto;z-index:999;display:none;"></div>
+  </div>
+</header>
+
+<div id="menu-overlay" style="position:fixed;top:60px;left:0;width:100vw;height:calc(100vh - 60px);background:rgba(0,0,0,0.25);z-index:900;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;"></div>
+<nav id="sidebar-menu" style="position:fixed;top:60px;left:0;width:260px;height:calc(100vh - 60px);background:#1e2530;color:white;z-index:1000;transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:24px 20px;display:flex;flex-direction:column;gap:16px;">
+  <div style="font-size:18px;font-weight:bold;">Menu</div>
+  <div style="width:100%;height:1px;background:rgba(255,255,255,.4);"></div>
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <a href="acceuil_version_finale.html" style="color:white;text-decoration:none;font-size:16px;">Page d'accueil</a>
+    <a href="methodologie.html" style="color:white;text-decoration:none;font-size:16px;">Présentation du projet</a>
+    <a href="qui_sommes_nous.html" style="color:white;text-decoration:none;font-size:16px;">Qui sommes-nous ?</a>
+    <a href="data.json" download style="color:white;text-decoration:none;font-size:16px;">Télécharger les données</a>
+  </div>
+</nav>
 
 <div class="page">
   <div class="bande">
@@ -479,6 +510,28 @@ function afficherComp(liste) {
 function filtrerComp(val) {
   afficherComp(toutesEntreprises.filter(e => e.nom.toLowerCase().includes(val.toLowerCase())));
 }
+const burgerBtn = document.getElementById('burger-btn');
+const sidebarMenu = document.getElementById('sidebar-menu');
+const menuOverlay = document.getElementById('menu-overlay');
+burgerBtn.onclick = e => { e.stopPropagation(); sidebarMenu.classList.toggle('open'); menuOverlay.classList.toggle('active'); };
+menuOverlay.onclick = () => { sidebarMenu.classList.remove('open'); menuOverlay.classList.remove('active'); };
+document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.value.trim()) window.location.href = 'page_entreprise.html?nom=' + encodeURIComponent(e.target.value.trim()); });
+
+
+const entreprises = [];
+fetch('data.json').then(r => r.json()).then(data => { data.forEach(e => entreprises.push(e.nom)); });
+const searchInput = document.getElementById('search-input');
+const suggestions = document.getElementById('suggestions');
+searchInput.addEventListener('input', () => {
+  const val = searchInput.value.toLowerCase();
+  if (!val) { suggestions.style.display = 'none'; return; }
+  const filtres = entreprises.filter(n => n.toLowerCase().includes(val));
+  if (filtres.length === 0) { suggestions.style.display = 'none'; return; }
+  suggestions.innerHTML = filtres.map(n => `<div style="padding:8px 12px;cursor:pointer;color:#1c2530;font-size:14px;border-bottom:1px solid #eee;" onmouseover="this.style.background='#e6f1fb'" onmouseout="this.style.background='white'" onclick="window.location.href='page_entreprise.html?nom='+encodeURIComponent('${n}')">${n}</div>`).join('');
+  suggestions.style.display = 'block';
+});
+document.addEventListener('click', e => { if (!e.target.closest('div[style*="max-width:400px"]')) suggestions.style.display = 'none'; });
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter' && searchInput.value.trim()) window.location.href = 'page_entreprise.html?nom=' + encodeURIComponent(searchInput.value.trim()); });
 </script>
 </body>
 </html>

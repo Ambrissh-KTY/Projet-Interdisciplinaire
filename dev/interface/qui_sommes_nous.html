@@ -2,98 +2,144 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Qui sommes-nous — ECOsINT</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: sans-serif; background: #2d3250; color: white; padding: 40px 60px; }
+  body { font-family: sans-serif; background: #2d3250; color: white; }
 
+  /* HEADER */
+  .site-header { background: #424357; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: relative; z-index: 1100; }
+  .header-left { display: flex; align-items: center; gap: 20px; }
+  .burger-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; }
+  .burger-btn span { width: 24px; height: 3px; background: white; border-radius: 2px; }
+  .logo { font-size: 24px; font-weight: bold; color: white; text-decoration: none; }
+  .search-container { position: relative; width: 100%; max-width: 400px; }
+  .search-input { width: 100%; height: 36px; padding: 0 40px 0 12px; border-radius: 6px; border: 1px solid #b0b5c1; background: #e2e4e8; color: #1c2530; font-size: 14px; outline: none; }
+  .search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: #1c2530; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+  .menu-overlay { position: fixed; top: 60px; left: 0; width: 100vw; height: calc(100vh - 60px); background: rgba(0,0,0,0.25); z-index: 900; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .menu-overlay.active { opacity: 1; visibility: visible; }
+  .sidebar-menu { position: fixed; top: 60px; left: 0; width: 260px; height: calc(100vh - 60px); background: #1e2530; color: white; z-index: 1000; transform: translateX(-100%); transition: transform .3s cubic-bezier(.4,0,.2,1); padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .sidebar-menu.open { transform: translateX(0); }
+  .menu-title { font-size: 18px; font-weight: bold; }
+  .menu-line { width: 100%; height: 1px; background: rgba(255,255,255,.4); }
+  .menu-links { display: flex; flex-direction: column; gap: 16px; }
+  .menu-links a { color: white; text-decoration: none; font-size: 16px; transition: opacity .2s; }
+  .menu-links a:hover { opacity: .8; }
+
+  /* CONTENU */
+  .main-content { padding: 40px 60px; }
   h1 { font-size: 28px; font-weight: 500; text-align: center; margin-bottom: 16px; }
-
   .intro { font-size: 12px; color: #aaa; margin-bottom: 40px; line-height: 1.6; }
-
   .grille { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 60px; }
-
   .carte { display: flex; flex-direction: column; gap: 8px; }
-
   .linkedin-ligne { display: flex; align-items: center; gap: 8px; }
-
   .linkedin-btn { width: 28px; height: 28px; background: #0077b5; border-radius: 4px; display: flex; align-items: center; justify-content: center; text-decoration: none; flex-shrink: 0; }
-
   .linkedin-btn svg { width: 16px; height: 16px; fill: white; }
-
   .nom { font-size: 12px; color: #ccc; }
-
   .photo { width: 120px; height: 150px; object-fit: cover; display: block; }
+
+  /* FOOTER */
+  #footer { background: #616275; color: #D6D1D5; display: flex; justify-content: space-between; padding: 40px; gap: 40px; margin-top: 60px; }
+  #footer div { width: 45%; }
+  .f-titres { font-size: 20px; font-weight: 500; margin-bottom: 12px; color: white; }
+  #footer p { font-size: 14px; line-height: 1.7; }
 </style>
 </head>
 <body>
 
-<h1>Qui sommes nous ?</h1>
-<p class="intro">Nous sommes six étudiants du Cycle Pluridisciplinaire d'Etudes Supérieures (CPES) du lycée Louis le Grand et l'Université PSL en Sciences des données, arts et cultures</p>
-
-<div class="grille">
-
-  <div class="carte">
-    <div class="linkedin-ligne">
-      <a class="linkedin-btn" href="https://www.linkedin.com/in/cyrine-ben-messaoud-9791a9366/" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <div class="nom">BEN MESSAOUD Cyrine</div>
-    </div>
-    <img class="photo" src="photo_nous/cyrine.jpeg" />
+<header class="site-header">
+  <div class="header-left">
+    <button class="burger-btn" id="burger-btn"><span></span><span></span><span></span></button>
+    <a href="acceuil_version_finale.html" class="logo">ECOsINT</a>
   </div>
-
-  <div class="carte">
-    <div class="linkedin-ligne">
-      <a class="linkedin-btn" href="https://www.linkedin.com/in/oscar-boudailliez-063549184/" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <div class="nom">BOUDAILLIEZ Oscar</div>
-    </div>
-    <img class="photo" src="photo_nous/oscar.jpeg" />
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Rechercher une entreprise..." id="search-input">
+    <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
   </div>
+</header>
 
-  <div class="carte">
-    <div class="linkedin-ligne">
-      <a class="linkedin-btn" href="https://www.linkedin.com/in/damien-georges-data-science-paris/" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <div class="nom">GEORGES Damien</div>
-    </div>
-    <img class="photo" src="photo_nous/damien.jpeg" />
+<div class="menu-overlay" id="menu-overlay"></div>
+<nav class="sidebar-menu" id="sidebar-menu">
+  <div class="menu-title">Menu</div>
+  <div class="menu-line"></div>
+  <div class="menu-links">
+    <a href="acceuil_version_finale.html">Page d'accueil</a>
+    <a href="méthodo.html">Présentation du projet</a>
+    <a href="qui_sommes_nous.html">Qui sommes-nous ?</a>
+    <a href="data.json" download>Télécharger les données</a>
   </div>
+</nav>
 
-  <div class="carte">
-    <div class="linkedin-ligne">
-      <a class="linkedin-btn" href="https://www.linkedin.com/in/noah-horwitz-ch%C3%A9nieux-25b224332/" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <div class="nom">HORWITZ--CHENIEUX Noah</div>
+<div class="main-content">
+  <h1>Qui sommes nous ?</h1>
+  <p class="intro">Nous sommes six étudiants du Cycle Pluridisciplinaire d'Etudes Supérieures (CPES) du lycée Louis le Grand et l'Université PSL en Sciences des données, arts et cultures</p>
+
+  <div class="grille">
+    <div class="carte">
+      <div class="linkedin-ligne">
+        <a class="linkedin-btn" href="https://www.linkedin.com/in/cyrine-ben-messaoud-9791a9366/" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <div class="nom">BEN MESSAOUD Cyrine</div>
+      </div>
+      <img class="photo" src="photo_nous/cyrine.jpeg" />
     </div>
-    <img class="photo" src="photo_nous/noah.jpeg" />
-  </div>
-
-  <div class="carte">
-    <div class="linkedin-ligne">
-      <a class="linkedin-btn" href="https://www.linkedin.com/in/ambrissh/" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <div class="nom">KICHENAMOURTTY Ambrissh</div>
+    <div class="carte">
+      <div class="linkedin-ligne">
+        <a class="linkedin-btn" href="https://www.linkedin.com/in/oscar-boudailliez-063549184/" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <div class="nom">BOUDAILLIEZ Oscar</div>
+      </div>
+      <img class="photo" src="photo_nous/oscar.jpeg" />
     </div>
-    <img class="photo" src="photo_nous/ambrissh.jpeg" />
-  </div>
-
-  <div class="carte">
-    <div class="linkedin-ligne">
-      <a class="linkedin-btn" href="https://www.linkedin.com/in/zo%C3%A9-peng-ab5560357/" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <div class="nom">PENG Zoé</div>
+    <div class="carte">
+      <div class="linkedin-ligne">
+        <a class="linkedin-btn" href="https://www.linkedin.com/in/damien-georges-data-science-paris/" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <div class="nom">GEORGES Damien</div>
+      </div>
+      <img class="photo" src="photo_nous/damien.jpeg" />
     </div>
-    <img class="photo" src="photo_nous/zoe.jpeg" />
+    <div class="carte">
+      <div class="linkedin-ligne">
+        <a class="linkedin-btn" href="https://www.linkedin.com/in/noah-horwitz-ch%C3%A9nieux-25b224332/" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <div class="nom">HORWITZ--CHENIEUX Noah</div>
+      </div>
+      <img class="photo" src="photo_nous/noah.jpeg" />
+    </div>
+    <div class="carte">
+      <div class="linkedin-ligne">
+        <a class="linkedin-btn" href="https://www.linkedin.com/in/ambrissh/" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <div class="nom">KICHENAMOURTTY Ambrissh</div>
+      </div>
+      <img class="photo" src="photo_nous/ambrissh.jpeg" />
+    </div>
+    <div class="carte">
+      <div class="linkedin-ligne">
+        <a class="linkedin-btn" href="https://www.linkedin.com/in/zo%C3%A9-peng-ab5560357/" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <div class="nom">PENG Zoé</div>
+      </div>
+      <img class="photo" src="photo_nous/zoe.jpeg" />
+    </div>
   </div>
-
 </div>
 
+<div id="footer">
+  <div id="a-propos">
+    <p class="f-titres">À propos de nous</p>
+    <p>ECOsINT est né d'une conviction simple : la donnée environnementale doit être lisible par tous. Notre plateforme rassemble, normalise et restitue les émissions des grandes entreprises françaises afin que chacun puisse comparer, comprendre et exiger des comptes — sans expertise technique préalable.</p>
+  </div>
+  <div id="nous-contacter">
+    <p class="f-titres">Nous contacter</p>
+    <p>Écrivez-nous à eco2int@proton.me. Pour le détail complet de la démarche, rendez-vous sur la page de présentation du projet.</p>
+  </div>
+</div>
+
+<script>
+const btn = document.getElementById('burger-btn');
+const menu = document.getElementById('sidebar-menu');
+const overlay = document.getElementById('menu-overlay');
+btn.onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); overlay.classList.toggle('active'); };
+overlay.onclick = () => { menu.classList.remove('open'); overlay.classList.remove('active'); };
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter' && searchInput.value.trim()) window.location.href = 'page_entreprise.html?nom=' + encodeURIComponent(searchInput.value.trim()); });
+</script>
 </body>
 </html>

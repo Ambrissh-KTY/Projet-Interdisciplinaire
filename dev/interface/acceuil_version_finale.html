@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECOsINT</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: #282736; color: white; }
+
+  /* HEADER */
+  .site-header { background: #424357; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 1100; }
+  .header-left { display: flex; align-items: center; gap: 20px; }
+  .burger-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; }
+  .burger-btn span { width: 24px; height: 3px; background: white; border-radius: 2px; display: block; }
+  .logo { font-size: 24px; font-weight: bold; color: white; text-decoration: none; }
+  .search-container { position: relative; width: 100%; max-width: 400px; }
+  .search-input { width: 100%; height: 36px; padding: 0 40px 0 12px; border-radius: 6px; border: 1px solid #b0b5c1; background: #e2e4e8; color: #1c2530; font-size: 14px; outline: none; }
+  .search-input::placeholder { color: #556070; }
+  .search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: #1c2530; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+
+  /* SIDEBAR */
+  .menu-overlay { position: fixed; top: 60px; left: 0; width: 100vw; height: calc(100vh - 60px); background: rgba(0,0,0,0.25); z-index: 900; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .menu-overlay.active { opacity: 1; visibility: visible; }
+  .sidebar-menu { position: fixed; top: 60px; left: 0; width: 260px; height: calc(100vh - 60px); background: #1e2530; color: white; z-index: 1000; transform: translateX(-100%); transition: transform .3s cubic-bezier(.4,0,.2,1); padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .sidebar-menu.open { transform: translateX(0); }
+  .menu-title { font-size: 18px; font-weight: bold; }
+  .menu-line { width: 100%; height: 1px; background: rgba(255,255,255,.4); }
+  .menu-links { display: flex; flex-direction: column; gap: 16px; }
+  .menu-links a { color: white; text-decoration: none; font-size: 16px; transition: opacity .2s; }
+  .menu-links a:hover { opacity: .8; }
+
+  /* HERO */
+  .hero { display: flex; align-items: center; justify-content: center; padding: 60px 40px 40px; text-align: center; }
+  .hero h1 { font-size: 64px; font-weight: 700; letter-spacing: -2px; }
+
+  /* CARDS */
+  .cards { display: flex; justify-content: center; max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }  .card h2 { font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+  .card p { font-size: 15px; color: #D5D6DD; line-height: 1.7; }
+
+  /* CLASSEMENT */
+  .classement-section { padding: 60px 40px; max-width: 1100px; margin: 0 auto; }
+  .classement-section h2 { font-size: 32px; font-weight: 700; text-align: center; margin-bottom: 40px; }
+
+  /* CHART CONTAINER */
+  .chart-wrapper { background: white; border-radius: 12px; padding: 20px; }
+  :root { --bg: #f4f6f9; --card: #fff; --ink: #1c2530; --muted: #6b7785; --line: #e3e8ee; --accent: #2563eb; --input-bg: #fff; --fixed: #1c2530; --grid: rgba(20,30,50,.08); --shadow: 0 1px 3px rgba(20,30,50,.08), 0 6px 18px rgba(20,30,50,.06); --err-bg: #fde8e8; --err-ink: #9b1c1c; --err-line: #f5c2c2; }
+  .wrap-chart { color: #1c2530; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0; }
+  .kpi { background: #fff; border: 1px solid #e3e8ee; border-radius: 12px; padding: 14px 16px; }
+  .kpi .label { font-size: 12px; color: #6b7785; text-transform: uppercase; letter-spacing: .04em; }
+  .kpi .value { font-size: 22px; font-weight: 650; margin-top: 4px; color: #1c2530; }
+  .kpi .sub { font-size: 12px; color: #6b7785; margin-top: 2px; }
+  .chart-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; align-items: start; }
+  .chart-card { background: #fff; border: 1px solid #e3e8ee; border-radius: 12px; padding: 16px 18px; }
+  .chart-card h3 { margin: 0 0 4px; font-size: 16px; color: #1c2530; }
+  .chart-card .hint { margin: 0 0 12px; font-size: 12px; color: #6b7785; }
+  .chart-box { position: relative; width: 100%; }
+  #box-bar { height: 760px; }
+  #box-scatter { height: 440px; }
+  select { width: 100%; padding: 9px 10px; border: 1px solid #e3e8ee; border-radius: 8px; font-size: 14px; background: #fff; color: #1c2530; margin-bottom: 14px; }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid #e3e8ee; font-size: 14px; color: #1c2530; }
+  .row:last-child { border-bottom: none; }
+  .row .k { color: #6b7785; }
+  .row .v { font-weight: 600; text-align: right; }
+  .rang-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; color: #fff; font-size: 13px; }
+  .empty { color: #6b7785; font-style: italic; }
+  .scale-note { font-size: 12px; color: #6b7785; display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .scale-bar { height: 8px; width: 120px; border-radius: 4px; background: linear-gradient(90deg, hsl(120 70% 45%), hsl(60 70% 45%), hsl(0 70% 45%)); }
+
+  /* FOOTER */
+  #footer { background: #616275; color: #D6D1D5; display: flex; justify-content: space-between; padding: 40px; gap: 40px; margin-top: 60px; }
+  #footer > div { width: 45%; }
+  .f-titres { font-size: 20px; font-weight: 500; margin-bottom: 12px; color: white; }
+  #footer p { font-size: 14px; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <button class="burger-btn" id="burger-btn">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="version_finale.html" class="logo">ECOsINT</a>
+  </div>
+  <div class="search-container">
+    <input type="text" class="search-input" id="search-input" placeholder="Rechercher une entreprise...">
+    <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menu-overlay"></div>
+<nav class="sidebar-menu" id="sidebar-menu">
+  <div class="menu-title">Menu</div>
+  <div class="menu-line"></div>
+  <div class="menu-links">
+    <a href="version_finale.html">Page d'accueil</a>
+    <a href="méthodo.html">Présentation du projet</a>
+    <a href="qui_sommes_nous.html">Qui sommes-nous ?</a>
+    <a href="data.json" download>Télécharger les données</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>ECOsINT</h1>
+</section>
+
+<!-- CARDS -->
+<section class="cards">
+  <div class="card" style="max-width:500px;margin:0 auto;width:100%;">
+    <h2>Cas utilisateur</h2>
+    <p>Présentation du projet...</p>
+  </div>
+</section>
+
+<!-- CLASSEMENT -->
+<section class="classement-section">
+  <h2>Le classement ECOsINT</h2>
+  <div class="wrap-chart">
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Classement par intensité carbone</h3>
+        <p class="hint">gCO₂e par € de dividende en échelle logarithmique. Cliquez une barre pour les détails.</p>
+        <div class="chart-box" id="box-bar"><canvas id="barChart"></canvas></div>
+        <div class="scale-note">moins polluant <span class="scale-bar"></span> plus polluant</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer">
+  <div>
+    <p class="f-titres">À propos de nous</p>
+    <p>ECOsINT est né d'une conviction simple : la donnée environnementale doit être lisible par tous. Notre plateforme rassemble, normalise et restitue les émissions des grandes entreprises françaises afin que chacun puisse comparer, comprendre et exiger des comptes, sans expertise technique préalable.</p>
+  </div>
+  <div>
+    <p class="f-titres">Nous contacter</p>
+    <p>Écrivez-nous à eco2int@proton.me. Pour le détail complet de la démarche, rendez-vous sur la page de présentation du projet.</p>
+  </div>
+</div>
+
+<script src="./chart.umd.min.js"></script>
+<script>
+const btn = document.getElementById('burger-btn');
+const menu = document.getElementById('sidebar-menu');
+const overlay = document.getElementById('menu-overlay');
+btn.onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); overlay.classList.toggle('active'); };
+overlay.onclick = () => { menu.classList.remove('open'); overlay.classList.remove('active'); };
+
+const entreprises = [];
+fetch('data.json').then(r => r.json()).then(data => {
+  data.forEach(e => entreprises.push(e.nom));
+});
+
+const searchInput = document.getElementById('search-input');
+const suggestions = document.createElement('div');
+suggestions.style.cssText = 'position:absolute;top:36px;left:0;right:0;background:white;border-radius:0 0 6px 6px;max-height:200px;overflow-y:auto;z-index:999;display:none;';
+document.querySelector('.search-container').appendChild(suggestions);
+
+searchInput.addEventListener('input', () => {
+  const val = searchInput.value.toLowerCase();
+  if (!val) { suggestions.style.display = 'none'; return; }
+  const filtres = entreprises.filter(n => n.toLowerCase().includes(val));
+  if (filtres.length === 0) { suggestions.style.display = 'none'; return; }
+  suggestions.innerHTML = filtres.map(n =>
+    `<div style="padding:8px 12px;cursor:pointer;color:#1c2530;font-size:14px;border-bottom:1px solid #eee;" onmouseover="this.style.background='#e6f1fb'" onmouseout="this.style.background='white'" onclick="window.location.href='page_entreprise.html?nom='+encodeURIComponent('${n}')">${n}</div>`
+  ).join('');
+  suggestions.style.display = 'block';
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-container')) suggestions.style.display = 'none';
+});
+
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && searchInput.value.trim())
+    window.location.href = 'page_entreprise.html?nom=' + encodeURIComponent(searchInput.value.trim());
+});
+
+const euros = v => v == null ? "—" : new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR', maximumFractionDigits:0 }).format(v);
+const nombre = v => v == null ? "—" : new Intl.NumberFormat('fr-FR', { maximumFractionDigits:0 }).format(v);
+const decimal = v => v == null ? "—" : new Intl.NumberFormat('fr-FR', { maximumFractionDigits:2 }).format(v);
+const compact = v => new Intl.NumberFormat('fr-FR', { notation:'compact', maximumFractionDigits:1 }).format(v);
+
+let logMin, logMax;
+function intensityColor(v, alpha=1) {
+  const t = (Math.log(v) - logMin) / (logMax - logMin);
+  return `hsl(${120*(1-t)} 70% 45% / ${alpha})`;
+}
+
+fetch('data.json')
+  .then(r => r.json())
+  .then(companies => build(companies))
+  .catch(() => {});
+
+function build(companies) {
+  const intens = companies.map(c => c.co2e_per_eur_dividend).filter(v => v != null);
+  logMin = Math.log(Math.min(...intens));
+  logMax = Math.log(Math.max(...intens));
+  kpis(companies);
+  const barChart = buildBar(companies);
+  buildPicker(companies);
+  window.select = c => { document.getElementById('picker').value = c.lei; detail(c); highlight(barChart, c.lei); };
+}
+
+function median(xs) { const s=[...xs].sort((a,b)=>a-b),m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
+
+function kpis(companies) {
+  const totalCo2 = companies.reduce((s,c) => s+(c.co2||0), 0);
+  const med = median(companies.map(c=>c.co2e_per_eur_dividend).filter(v=>v!=null));
+  const byRank = r => (companies.find(c=>c.co2e_per_eur_dividend_rank===r)||{}).nom||"—";
+  const total = companies[0].co2e_per_eur_dividend_rank_total;
+}
+
+let sortedBar;
+function buildBar(companies) {
+  sortedBar = [...companies].sort((a,b) => a.co2e_per_eur_dividend - b.co2e_per_eur_dividend);
+  const chart = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: { labels: sortedBar.map(c=>c.nom), datasets: [{ data: sortedBar.map(c=>c.co2e_per_eur_dividend), backgroundColor: sortedBar.map(c=>intensityColor(c.co2e_per_eur_dividend, 0.85)), borderWidth: 0 }] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: i => `${decimal(i.raw)} gCO₂e / €` } } },
+      scales: { x: { type: 'logarithmic', title: { display: true, text: 'gCO₂e par € de dividende (log)', color: '#6b7785' }, ticks: { color: '#6b7785' } }, y: { ticks: { autoSkip: false, font: { size: 10 }, color: '#1c2530' } } },
+      onClick: (e, els) => { if (els[0]) select(sortedBar[els[0].index]); }
+    }
+  });
+  return chart;
+}
+
+function buildPicker(companies) {
+  const sel = document.getElementById('picker');
+  sel.innerHTML = '<option value="">— choisir —</option>' +
+    [...companies].sort((a,b) => a.nom.localeCompare(b.nom,'fr')).map(c => `<option value="${c.lei}">${c.nom}</option>`).join('');
+  sel.onchange = () => { const c = companies.find(x => x.lei===sel.value); if(c) select(c); };
+}
+
+function detail(c) {
+  const rang = c.co2e_per_eur_dividend_rank, total = c.co2e_per_eur_dividend_rank_total;
+  const badge = rang==null ? '<span class="empty">données manquantes</span>'
+    : `<span class="rang-badge" style="background:${intensityColor(c.co2e_per_eur_dividend)}">${rang}/${total}</span> <span class="empty">(1=moins polluant)</span>`;
+  document.getElementById('detail-body').innerHTML = `
+    <h3 style="margin:4px 0 10px;color:#1c2530">${c.nom}</h3>
+    <div class="row"><span class="k">Chiffre d'affaires</span><span class="v">${euros(c.ca)}</span></div>
+    <div class="row"><span class="k">Dividende total</span><span class="v">${euros(c.div)}</span></div>
+    <div class="row"><span class="k">Émissions Scope 1+2</span><span class="v">${nombre(c.co2)} tCO₂e</span></div>
+    <div class="row"><span class="k">Intensité carbone</span><span class="v">${decimal(c.co2e_per_eur_dividend)} gCO₂e/€</span></div>
+    <div class="row"><span class="k">Classement</span><span class="v">${badge}</span></div>
+    <div class="row"><span class="k">Décisions de justice</span><span class="v">${c.proces?c.proces.length:0}</span></div>`;
+}
+
+function highlight(barChart, lei) {
+  barChart.data.datasets[0].borderWidth = sortedBar.map(c => c.lei===lei ? 3 : 0);
+  barChart.data.datasets[0].borderColor = sortedBar.map(c => c.lei===lei ? '#1c2530' : 'transparent');
+  barChart.update();
+}
+</script>
+</body>
+</html>
+
