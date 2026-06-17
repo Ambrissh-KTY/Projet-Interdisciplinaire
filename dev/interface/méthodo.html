@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOsINT - Méthodologie</title>
+    <style>
+        /* ==========================================
+           VARIABLES GLOBALES (Couleurs extraites de la maquette)
+        =========================================== */
+        :root {
+            --bg-header: #424357;
+            --bg-main: #282736;
+            --bg-footer: #616275;
+            --bg-card: #363647;
+            
+            --text-white: #FFFFFF;
+            --text-light-grey: #D5D6DD;
+            --text-muted: #A3A4AF;
+            --text-dark: #333333;
+            
+            --blue-highlight: #3b82f6; /* Bleu des soulignements */
+            
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --container-width: 1100px;
+        }
+
+        /* ==========================================
+           RESET & BASE
+        =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ==========================================
+           HEADER
+        =========================================== */
+        .site-header {
+            background-color: var(--bg-header);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-logo-group {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* Menu Burger */
+        .hamburger-menu {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 36px;
+            height: 5px;
+            background-color: var(--text-light-grey);
+            border-radius: 2px;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-light-grey);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            margin-left: 50px;
+        }
+
+        .search-bar {
+            display: flex;
+            background-color: #EFEFEF;
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px; /* Contrôle la largeur de la barre */
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            padding: 14px 20px;
+            background: transparent;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        /* ==========================================
+           SECTION METHODOLOGIE
+        =========================================== */
+        .methodology-section {
+            padding: 60px 0 100px;
+        }
+
+        .breadcrumb {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .page-title {
+            font-size: 5rem;
+            font-weight: 400;
+            margin-bottom: 60px;
+            letter-spacing: -1.5px;
+        }
+
+        .page-title strong {
+            font-weight: 700;
+        }
+
+        /* Grille Contenu vs Carte */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 80px;
+            align-items: start;
+        }
+
+        /* Colonne de gauche (Texte) */
+        .text-content h2 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .text-content ul {
+            list-style-type: disc;
+            padding-left: 25px;
+        }
+
+        .text-content li {
+            margin-bottom: 25px;
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        /* Soulignement Bleu */
+        .blue-highlight {
+            border-bottom: 4px solid var(--blue-highlight);
+            padding-bottom: 2px;
+        }
+
+        /* Colonne de droite (Carte Indicateur) */
+        .indicator-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .card-value {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1;
+            color: #92C6B2; /* Ton verdâtre du CO2e */
+        }
+
+        .card-value sub {
+            font-size: 1.6rem;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-light-grey);
+        }
+
+        .card-details {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .card-details li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: var(--text-light-grey);
+            line-height: 1.5;
+        }
+
+        .card-details li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            top: -4px;
+        }
+
+        .card-details strong {
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .card-note {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================
+           FOOTER
+        =========================================== */
+        .site-footer {
+            background-color: var(--bg-footer);
+            padding: 60px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 80px;
+        }
+
+        .site-footer h3 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .site-footer p {
+            font-size: 0.95rem;
+            color: var(--text-light-grey);
+            line-height: 1.7;
+        }
+
+        .site-footer a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        =========================================== */
+        @media (max-width: 950px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+            
+            .search-container {
+                margin-left: 0;
+                justify-content: center;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+            }
+            
+            .page-title {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="methodology-section">
+        <div class="container">
+            <p class="breadcrumb">Transparence des émissions · CAC 40</p>
+            <h1 class="page-title"><strong>Méthodo</strong>logie</h1>
+
+            <div class="content-grid">
+                <div class="text-content">
+                    <h2><span class="blue-highlight">Données financières :</span></h2>
+                    <ul>
+                        <li>Obtenues grâce à l'API <em>yfinance</em> sur les 40 entreprises du<br>CAC40, couvrant le chiffres d'affaires, le montant des<br>dividendes versés par action et le nombre d'actions en<br>circulation au 31 décembre 2025.</li>
+                        <li>Multiplication des dividendes par action X actions en<br>circulation pour trouver le total des dividendes par<br>entreprise.</li>
+                    </ul>
+                                    <h2><span class="blue-highlight">Données juridiques :</span></h2>
+                    <ul>
+                        <li>Obtenues grâce à l'API <em>Judilibre</em> sur les 40 entreprises du<br>CAC40, qui recense les décisions de justice <br>partiellement puis exhaustivement depuis fin 2025.<br>Nous avons en particulier ciblé les décisions de justice concernant l’environnement.</li>
+                    </ul>
+                </div>
+
+                <aside class="indicator-card">
+                    <div class="card-header">
+                        <p class="card-subtitle">Indicateur phare</p>
+                        <p class="card-value">CO<sub>2</sub>e / €</p>
+                        <p class="card-desc">Émissions rapportées au total des dividendes versés.</p>
+                    </div>
+                    <div class="card-body">
+                        <ul class="card-details">
+                            <li>Source : base en accès libre de la <strong>Climate Data Utility</strong>.</li>
+                            <li>Millésime <strong>2022</strong> · <strong>39 entreprises</strong> · Scopes 1 & 2.</li>
+                            <li>Stellantis : données agrégées <strong>PSA + Fiat Chrysler</strong>.</li>
+                        </ul>
+                        <p class="card-note">Données temporaires — une source de meilleure qualité est recherchée.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
