@@ -7,8 +7,20 @@
 <title>ECOsINT</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: system-ui, sans-serif; background: #282736; color: white; }
+  @font-face {
+  font-family: 'Aktiv Grotesk';
+  src: url('fonts/AktivGrotesk-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aktiv Grotesk';
+  src: url('fonts/AktivGrotesk-bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
 
+body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736; color: white; }
   /* HEADER */
   .site-header { background: #424357; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 1100; }
   .header-left { display: flex; align-items: center; gap: 20px; }
@@ -19,7 +31,7 @@
   .search-input { width: 100%; height: 36px; padding: 0 40px 0 12px; border-radius: 6px; border: 1px solid #b0b5c1; background: #e2e4e8; color: #1c2530; font-size: 14px; outline: none; }
   .search-input::placeholder { color: #556070; }
   .search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: #1c2530; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-
+  
   /* SIDEBAR */
   .menu-overlay { position: fixed; top: 60px; left: 0; width: 100vw; height: calc(100vh - 60px); background: rgba(0,0,0,0.25); z-index: 900; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .menu-overlay.active { opacity: 1; visibility: visible; }
@@ -36,7 +48,8 @@
   .hero h1 { font-size: 64px; font-weight: 700; letter-spacing: -2px; }
 
   /* CARDS */
-  .cards { display: flex; justify-content: center; max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }  .card h2 { font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+  .cards { display: flex; justify-content: center; max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }  
+  .card h2 { font-size: 20px; font-weight: 500; margin-bottom: 12px; }
   .card p { font-size: 15px; color: #D5D6DD; line-height: 1.7; }
 
   /* CLASSEMENT */
@@ -74,6 +87,11 @@
   #footer > div { width: 45%; }
   .f-titres { font-size: 20px; font-weight: 500; margin-bottom: 12px; color: white; }
   #footer p { font-size: 14px; line-height: 1.7; }
+  .bandeau-defilant { background: #1e2240; overflow: hidden; white-space: nowrap; padding: 10px 0; border-bottom: 1px solid #4a5080; }
+.bandeau-track { display: inline-block; animation: defilant 80s linear infinite; }
+.bandeau-track span { margin: 0 30px; font-size: 13px; color: #aaa; cursor: pointer; }
+.bandeau-track span:hover { color: white; }
+@keyframes defilant { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 </style>
 </head>
 <body>
@@ -90,18 +108,26 @@
     <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
   </div>
 </header>
-
 <div class="menu-overlay" id="menu-overlay"></div>
 <nav class="sidebar-menu" id="sidebar-menu">
   <div class="menu-title">Menu</div>
   <div class="menu-line"></div>
   <div class="menu-links">
-    <a href="version_finale.html">Page d'accueil</a>
-    <a href="méthodo.html">Présentation du projet</a>
+    <a href="acceuil_version_finale.html">Page d'accueil</a>
+    <a href="méthodo.html">Méthodologie</a>
     <a href="qui_sommes_nous.html">Qui sommes-nous ?</a>
     <a href="data.json" download>Télécharger les données</a>
   </div>
 </nav>
+<div style="background:#3d4466;overflow:hidden;white-space:nowrap;padding:8px 0;border-bottom:1px solid #4a5080;">
+</div>
+
+<div class="bandeau-defilant">
+  <div class="bandeau-track">
+    <span>Accor</span><span>Air Liquide</span><span>Airbus</span><span>ArcelorMittal</span><span>AXA</span><span>BNP Paribas</span><span>Bouygues</span><span>Capgemini</span><span>Carrefour</span><span>Crédit Agricole</span><span>Danone</span><span>Dassault Systèmes</span><span>Edenred</span><span>Engie</span><span>EssilorLuxottica</span><span>Eurofins Scientific</span><span>Hermès International</span><span>Kering</span><span>Legrand</span><span>L'Oréal</span><span>LVMH</span><span>Michelin</span><span>Orange</span><span>Pernod Ricard</span><span>Publicis Groupe</span><span>Renault</span><span>Safran</span><span>Saint-Gobain</span><span>Sanofi</span><span>Schneider Electric</span><span>Société Générale</span><span>Stellantis</span><span>STMicroelectronics</span><span>Teleperformance</span><span>Thales</span><span>TotalEnergies</span><span>Unibail-Rodamco-Westfield</span><span>Veolia</span><span>Vinci</span><span>Vivendi</span>
+    <span>Accor</span><span>Air Liquide</span><span>Airbus</span><span>ArcelorMittal</span><span>AXA</span><span>BNP Paribas</span><span>Bouygues</span><span>Capgemini</span><span>Carrefour</span><span>Crédit Agricole</span><span>Danone</span><span>Dassault Systèmes</span><span>Edenred</span><span>Engie</span><span>EssilorLuxottica</span><span>Eurofins Scientific</span><span>Hermès International</span><span>Kering</span><span>Legrand</span><span>L'Oréal</span><span>LVMH</span><span>Michelin</span><span>Orange</span><span>Pernod Ricard</span><span>Publicis Groupe</span><span>Renault</span><span>Safran</span><span>Saint-Gobain</span><span>Sanofi</span><span>Schneider Electric</span><span>Société Générale</span><span>Stellantis</span><span>STMicroelectronics</span><span>Teleperformance</span><span>Thales</span><span>TotalEnergies</span><span>Unibail-Rodamco-Westfield</span><span>Veolia</span><span>Vinci</span><span>Vivendi</span>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -130,7 +156,16 @@
     </div>
   </div>
 </section>
-
+<section class="classement-section">
+  <h2>Émissions vs dividendes</h2>
+  <div class="wrap-chart">
+    <div class="chart-card">
+      <h3>Émissions vs dividendes</h3>
+      <p class="hint">Axes logarithmiques · taille des bulles ∝ chiffre d'affaires · couleur = intensité carbone. En haut à gauche = beaucoup d'émissions pour peu de dividendes (plus polluant).</p>
+      <div class="chart-box" style="height:500px;"><canvas id="scatterChart"></canvas></div>
+    </div>
+  </div>
+</section>
 <div id="footer">
   <div>
     <p class="f-titres">À propos de nous</p>
@@ -200,12 +235,48 @@ function build(companies) {
   const intens = companies.map(c => c.co2e_per_eur_dividend).filter(v => v != null);
   logMin = Math.log(Math.min(...intens));
   logMax = Math.log(Math.max(...intens));
-  kpis(companies);
   const barChart = buildBar(companies);
-  buildPicker(companies);
-  window.select = c => { document.getElementById('picker').value = c.lei; detail(c); highlight(barChart, c.lei); };
+  buildScatter(companies);
+  window.select = c => { highlight(barChart, c.lei); };
 }
+function buildScatter(companies) {
+  const ca = companies.map(c => c.ca).filter(v => v != null && v > 0);
+  const lo = Math.log(Math.min(...ca)), hi = Math.log(Math.max(...ca));
+  const radius = c => c.ca ? 5 + 17 * (Math.log(c.ca) - lo) / (hi - lo) : 5;
 
+  const pts = companies.filter(c => c.div > 0 && c.co2 > 0);
+  const X = pts.map(c => Math.log(c.div)), Y = pts.map(c => Math.log(c.co2));
+  const n = X.length, mx = X.reduce((a,b)=>a+b,0)/n, my = Y.reduce((a,b)=>a+b,0)/n;
+  let sxy=0, sxx=0;
+  for (let i=0;i<n;i++){sxy+=(X[i]-mx)*(Y[i]-my);sxx+=(X[i]-mx)**2;}
+  const slope=sxy/sxx, intercept=my-slope*mx;
+  const xs=pts.map(c=>c.div), x0=Math.min(...xs), x1=Math.max(...xs);
+  const trendY = x => Math.exp(slope*Math.log(x)+intercept);
+
+  new Chart(document.getElementById('scatterChart'), {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        type: 'bubble',
+        data: companies.filter(c=>c.div>0&&c.co2>0).map(c=>({x:c.div,y:c.co2,r:radius(c),c})),
+        backgroundColor: companies.filter(c=>c.div>0&&c.co2>0).map(c=>intensityColor(c.co2e_per_eur_dividend,0.55)),
+        borderColor: companies.filter(c=>c.div>0&&c.co2>0).map(c=>intensityColor(c.co2e_per_eur_dividend,1)),
+        borderWidth: 1,
+      },{
+        type: 'line', data: [{x:x0,y:trendY(x0)},{x:x1,y:trendY(x1)}],
+        borderColor: '#888', borderDash:[6,4], borderWidth:1.5, pointRadius:0, fill:false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{display:false}, tooltip:{filter:i=>i.datasetIndex===0, callbacks:{label:i=>{const c=i.raw.c;return[c.nom,`${decimal(c.co2e_per_eur_dividend)} gCO₂e/€`,`Rang:${c.co2e_per_eur_dividend_rank}`];}}}},
+      scales: {
+        x:{type:'logarithmic',title:{display:true,text:'Dividende total (€, log)',color:'#6b7785'},ticks:{color:'#6b7785',callback:v=>{const e=Math.round(Math.log10(v));return Math.abs(v-10**e)<1e-6*v?compact(v):'';}}},
+        y:{type:'logarithmic',title:{display:true,text:'Émissions Scope 1+2 (tCO₂e, log)',color:'#6b7785'},ticks:{color:'#6b7785',callback:v=>compact(v)}}
+      }
+    }
+  });
+}
 function median(xs) { const s=[...xs].sort((a,b)=>a-b),m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
 
 function kpis(companies) {
