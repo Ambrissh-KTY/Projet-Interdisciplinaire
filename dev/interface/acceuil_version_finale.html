@@ -65,7 +65,7 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
   .kpi .label { font-size: 12px; color: #6b7785; text-transform: uppercase; letter-spacing: .04em; }
   .kpi .value { font-size: 22px; font-weight: 650; margin-top: 4px; color: #1c2530; }
   .kpi .sub { font-size: 12px; color: #6b7785; margin-top: 2px; }
-  .chart-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; align-items: start; }
+  .chart-grid { display: flex; justify-content: center; }
   .chart-card { background: #fff; border: 1px solid #e3e8ee; border-radius: 12px; padding: 16px 18px; }
   .chart-card h3 { margin: 0 0 4px; font-size: 16px; color: #1c2530; }
   .chart-card .hint { margin: 0 0 12px; font-size: 12px; color: #6b7785; }
@@ -131,14 +131,16 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
 
 <!-- HERO -->
 <section class="hero">
-  <h1>ECOsINT</h1>
+  <h1>ECO<sub style="font-size:0.75em;vertical-align:-0.2em;">s</sub>INT</h1>
 </section>
 
 <!-- CARDS -->
 <section class="cards">
   <div class="card" style="max-width:500px;margin:0 auto;width:100%;">
-    <h2>Cas utilisateur</h2>
-    <p>Présentation du projet...</p>
+    <h1 style="margin-bottom:16px;">Cas utilisateur</h1>
+    <a href="étude_de_cas.pdf" target="_blank" style="display:block;border-radius:8px;overflow:hidden;border:1px solid #4a5080;cursor:pointer;">
+      <iframe src="étude_de_cas.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH" width="100%" height="300px" style="display:block;border:none;pointer-events:none;"></iframe>
+    </a>
   </div>
 </section>
 
@@ -148,6 +150,7 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
   <div class="wrap-chart">
     <div class="chart-grid">
       <div class="chart-card">
+        <div class="chart-card" style="width:100%;max-width:800px;"></div>
         <h3>Classement par intensité carbone</h3>
         <p class="hint">gCO₂e par € de dividende en échelle logarithmique. Cliquez une barre pour les détails.</p>
         <div class="chart-box" id="box-bar"><canvas id="barChart"></canvas></div>
