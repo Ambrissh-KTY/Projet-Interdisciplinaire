@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -89,8 +88,8 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
   #footer p { font-size: 14px; line-height: 1.7; }
   .bandeau-defilant { background: #1e2240; overflow: hidden; white-space: nowrap; padding: 10px 0; border-bottom: 1px solid #4a5080; }
 .bandeau-track { display: inline-block; animation: defilant 80s linear infinite; }
-.bandeau-track span { margin: 0 30px; font-size: 13px; color: #aaa; cursor: pointer; }2/2Vous avez dit : jfais quoi:
-.bandeau-track span:hover { color: white; }
+.bandeau-track span { margin: 0 30px; font-size: 13px; color: #aaa; cursor: pointer; }
+.bandeau-track span:hover { color: white; cursor: pointer; }
 @keyframes defilant { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 </style>
 </head>
@@ -134,30 +133,34 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
   <h1>ECO<sub style="font-size:0.75em;vertical-align:-0.2em;">s</sub>INT</h1>
 </section>
 
-<!-- CARDS -->
-<section class="cards">
-  <div class="card" style="max-width:500px;margin:0 auto;width:100%;">
-    <h1 style="margin-bottom:16px;">Cas utilisateur</h1>
-    <a href="étude_de_cas.pdf" target="_blank" style="display:block;border-radius:8px;overflow:hidden;border:1px solid #4a5080;cursor:pointer;">
-      <iframe src="étude_de_cas.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH" width="100%" height="300px" style="display:block;border:none;pointer-events:none;"></iframe>
-    </a>
-  </div>
-</section>
-
-<!-- CLASSEMENT -->
+<!-- CLASSEMENT + CAS USAGE -->
 <section class="classement-section">
-  <h2>Le classement ECOsINT</h2>
-  <div class="wrap-chart">
-    <div class="chart-grid">
-      <div class="chart-card">
-        <div class="chart-card" style="width:100%;max-width:800px;"></div>
-        <h3>Classement par intensité carbone</h3>
-        <p class="hint">gCO₂e par € de dividende en échelle logarithmique. Cliquez une barre pour les détails.</p>
-        <div class="chart-box" id="box-bar"><canvas id="barChart"></canvas></div>
-        <div class="scale-note">moins polluant <span class="scale-bar"></span> plus polluant</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+    
+    <div>
+      <h2 style="font-size:24px;font-weight:700;text-align:center;margin-bottom:24px;">Le classement ECOsINT</h2>
+      <div class="wrap-chart">
+        <div class="chart-card">
+          <h3>Classement par intensité carbone</h3>
+          <p class="hint">gCO₂e par € de dividende en échelle logarithmique. Cliquez une barre pour les détails.</p>
+          <div class="chart-box" id="box-bar"><canvas id="barChart"></canvas></div>
+          <div class="scale-note">moins polluant <span class="scale-bar"></span> plus polluant</div>
+        </div>
       </div>
     </div>
+
+    <div>
+      <h2 style="font-size:24px;font-weight:700;text-align:center;margin-bottom:24px;">Notre dernière étude</h2>
+      <div class="card" style="background:#363647;border-radius:12px;padding:24px;">
+        <p style="margin-bottom:16px;color:#D5D6DD;">Découvrez comment utiliser ECOsINT à travers un exemple concret.</p>
+        <a href="étude_de_cas.pdf" target="_blank" style="display:block;border-radius:8px;overflow:hidden;border:1px solid #4a5080;cursor:pointer;">
+          <iframe src="étude_de_cas.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH" width="100%" height="400px" style="display:block;border:none;pointer-events:none;"></iframe>
+        </a>
+      </div>
+    </div>
+
   </div>
+</section>
 </section>
 <section class="classement-section">
   <h2>Émissions vs dividendes</h2>
@@ -176,7 +179,7 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
   </div>
   <div>
     <p class="f-titres">Nous contacter</p>
-    <p>Écrivez-nous à eco2int@proton.me. Pour le détail complet de la démarche, rendez-vous sur la page de présentation du projet.</p>
+    <p>Écrivez-nous à eco2int@proton.me. Pour le détail complet de la démarche, rendez-vous sur la page "Méthodologie" et "Qui sommes-nous ?".</p>
   </div>
 </div>
 
