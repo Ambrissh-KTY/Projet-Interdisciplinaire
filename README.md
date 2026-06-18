@@ -52,6 +52,7 @@ http://localhost:8000
 │   │   └── load_emissions.py
 │   ├── db
 │   │   ├── cac40_combined.csv
+│   │   ├── cac40.db
 │   │   ├── CONTRIBUTING_DATA.md
 │   │   ├── export_json.py
 │   │   ├── migrate.py
@@ -67,65 +68,33 @@ http://localhost:8000
 │   │   └── load_finance.py
 │   ├── guide.md
 │   ├── interface
+│   │   ├── accueil.html
 │   │   ├── burger-header.html
 │   │   ├── cdu_cac40_cleaned.csv
 │   │   ├── chart.umd.min.js
 │   │   ├── data.json
-│   │   ├── emissions_cac40_barplot.png
-│   │   ├── emissions_scope.png
+│   │   ├── étude_de_cas.pdf
+│   │   ├── fonts
 │   │   ├── footer.css
 │   │   ├── footer.html
+│   │   ├── general
+│   │   │   ├── accueil.css
+│   │   │   └── accueil.html
 │   │   ├── graph_test.html
 │   │   ├── graphique
+│   │   ├── images
+│   │   ├── index_old.html
 │   │   ├── index.html
 │   │   ├── logo cac40
-│   │   │   ├── accor.png
-│   │   │   ├── airbus.png
-│   │   │   ├── airliquide.png
-│   │   │   ├── alstom.png
-│   │   │   ├── arcelormittal.png
-│   │   │   ├── axa.png
-│   │   │   ├── bnp.png
-│   │   │   ├── bouygues.png
-│   │   │   ├── CA.png
-│   │   │   ├── capgemini.png
-│   │   │   ├── carrefour.png
-│   │   │   ├── danone.jpeg
-│   │   │   ├── dassault_system.png
-│   │   │   ├── edenred.png
-│   │   │   ├── edf.png
-│   │   │   ├── engie.png
-│   │   │   ├── essilor.png
-│   │   │   ├── eurofins.png
-│   │   │   ├── hermes.png
-│   │   │   ├── kering.png
-│   │   │   ├── legrand.png
-│   │   │   ├── loreal.png
-│   │   │   ├── lvmh.png
-│   │   │   ├── michelin.png
-│   │   │   ├── orange.png
-│   │   │   ├── pernod ricard.png
-│   │   │   ├── publicis.png
-│   │   │   ├── renault.png
-│   │   │   ├── safran.png
-│   │   │   ├── saintgobain.png
-│   │   │   ├── sanofi.png
-│   │   │   ├── schneiderelectric.png
-│   │   │   ├── sg.png
-│   │   │   ├── stellantis.png
-│   │   │   ├── STMICROELECTRONICS.png
-│   │   │   ├── TELEPERFORMANCE.png
-│   │   │   ├── thales.png
-│   │   │   ├── TotalEnergies.jpeg
-│   │   │   ├── UNIBAIL-RODAMCO-WESTFIELD.jpeg
-│   │   │   ├── VEOLIA.png
-│   │   │   ├── VINCI.png
-│   │   │   └── VIVENDI.png
-│   │   ├── test.html
+│   │   ├── méthodo.html
+│   │   ├── page_entreprise.html
+│   │   ├── photo_nous
+│   │   ├── qui_sommes_nous.html
 │   │   └── vue-simple.html
 │   ├── justice_data
 │   │   └── justice_data_import.py
 │   ├── misc
+│   │   └── TTF
 │   └── tests
 │       ├── test_co2_per_dividend.py
 │       ├── test_load_emissions.py
