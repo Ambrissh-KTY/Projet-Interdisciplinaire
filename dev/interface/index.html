@@ -91,6 +91,31 @@ body { font-family: 'Aktiv Grotesk', system-ui, sans-serif; background: #282736;
 .bandeau-track span { margin: 0 30px; font-size: 13px; color: #aaa; cursor: pointer; }
 .bandeau-track span:hover { color: white; cursor: pointer; }
 @keyframes defilant { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (max-width: 768px) {
+  .hero h1 { font-size: 36px; letter-spacing: -1px; }
+  
+  .classement-section { padding: 30px 16px; }
+  
+  .classement-section > div[style*="grid-template-columns"] {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+  }
+  
+  .chart-box { height: 400px !important; }
+  
+  #box-bar { height: 600px !important; }
+  
+  .chart-card { padding: 12px; }
+  
+  .wrap-chart { overflow-x: auto; }
+  
+  #footer { flex-direction: column; }
+  #footer > div { width: 100%; }
+  
+  .bandeau-track span { margin: 0 16px; font-size: 12px; }
+  
+  .search-container { max-width: 200px; }
+}
 </style>
 </head>
 <body>
