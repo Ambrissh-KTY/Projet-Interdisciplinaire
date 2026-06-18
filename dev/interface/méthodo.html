@@ -1,33 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECOsINT - Méthodologie</title>
     <style>
-        /* ==========================================
-           VARIABLES GLOBALES (Couleurs extraites de la maquette)
-        =========================================== */
-        :root {
-            --bg-header: #424357;
-            --bg-main: #282736;
-            --bg-footer: #616275;
-            --bg-card: #363647;
-            
-            --text-white: #FFFFFF;
-            --text-light-grey: #D5D6DD;
-            --text-muted: #A3A4AF;
-            --text-dark: #333333;
-            
-            --blue-highlight: #3b82f6; /* Bleu des soulignements */
-            
-            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --container-width: 1100px;
-        }
-
-        /* ==========================================
-           RESET & BASE
-        =========================================== */
         * {
             margin: 0;
             padding: 0;
@@ -35,173 +13,229 @@
         }
 
         body {
-            font-family: var(--font-main);
-            background-color: var(--bg-main);
-            color: var(--text-white);
+            font-family: system-ui, sans-serif;
+            background: #282736;
+            color: white;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        /* ==========================================
-           HEADER
-        =========================================== */
+        /* HEADER */
         .site-header {
-            background-color: var(--bg-header);
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        
-
-        .header-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 40px;
+            background: #424357;
+            height: 60px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
         }
 
-        .menu-logo-group {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
         }
 
-        /* Menu Burger */
-        .hamburger-menu {
+        .burger-btn {
             background: none;
             border: none;
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 5px;
+            padding: 5px;
         }
 
-        .hamburger-menu span {
-            display: block;
-            width: 36px;
-            height: 5px;
-            background-color: var(--text-light-grey);
+        .burger-btn span {
+            width: 24px;
+            height: 3px;
+            background: white;
             border-radius: 2px;
+            display: block;
         }
 
-        /* Logo */
         .logo {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--text-light-grey);
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
             text-decoration: none;
-            letter-spacing: 1px;
         }
 
-        /* Barre de recherche */
         .search-container {
-            flex-grow: 1;
-            display: flex;
-            justify-content: flex-end;
-            margin-left: 50px;
-        }
-
-        .search-bar {
-            display: flex;
-            background-color: #EFEFEF;
-            border-radius: 6px;
-            overflow: hidden;
+            position: relative;
             width: 100%;
-            max-width: 500px; /* Contrôle la largeur de la barre */
+            max-width: 400px;
         }
 
-        .search-bar input {
-            flex-grow: 1;
-            border: none;
-            padding: 14px 20px;
-            background: transparent;
-            font-size: 1.05rem;
-            color: var(--text-dark);
+        .search-input {
+            width: 100%;
+            height: 36px;
+            padding: 0 40px 0 12px;
+            border-radius: 6px;
+            border: 1px solid #b0b5c1;
+            background: #e2e4e8;
+            color: #1c2530;
+            font-size: 14px;
             outline: none;
         }
 
-        .search-bar button {
-            background: transparent;
-            border: none;
-            padding: 0 15px;
-            cursor: pointer;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
+        .search-input::placeholder {
+            color: #556070;
         }
 
-        /* ==========================================
-           SECTION METHODOLOGIE
-        =========================================== */
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #1c2530;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+
+        /* SIDEBAR */
+        .menu-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            background: rgba(0, 0, 0, 0.25);
+            z-index: 900;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s, visibility .3s;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 60px);
+            background: #1e2530;
+            color: white;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-menu.open {
+            transform: translateX(0);
+        }
+
+        .menu-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .menu-line {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, .4);
+        }
+
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: opacity .2s;
+        }
+
+        .menu-links a:hover {
+            opacity: .8;
+        }
+
+        /* METHODOLOGY CONTENT */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
         .methodology-section {
             padding: 60px 0 100px;
         }
 
         .breadcrumb {
-            color: var(--text-muted);
+            color: #A3A4AF;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 25px;
             font-weight: 600;
+            text-align: center;
         }
 
         .page-title {
-            font-size: 5rem;
-            font-weight: 400;
-            margin-bottom: 60px;
-            letter-spacing: -1.5px;
-        }
-
-        .page-title strong {
+            font-size: 64px;
             font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 60px;
+            text-align: center;
         }
 
-        /* Grille Contenu vs Carte */
+        /* Content Grid */
         .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 80px;
-            align-items: start;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* Colonne de gauche (Texte) */
+        /* Left column (text) */
         .text-content h2 {
-            font-size: 1.6rem;
-            font-weight: 500;
-            margin-bottom: 30px;
-            letter-spacing: 0.5px;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .text-content ul {
-            list-style-type: disc;
-            padding-left: 25px;
+            list-style-type: none;
+            padding-left: 0;
         }
 
         .text-content li {
             margin-bottom: 25px;
             font-size: 1.25rem;
-            line-height: 1.8;
+            line-height: 1.4;
+            color: #D5D6DD;
+            word-spacing: -1px;
+            text-align: justify;
         }
 
-        /* Soulignement Bleu */
         .blue-highlight {
-            border-bottom: 4px solid var(--blue-highlight);
+            border-bottom: 4px solid #3b82f6;
             padding-bottom: 2px;
         }
 
-        /* Colonne de droite (Carte Indicateur) */
+        /* Right column (indicator card) */
         .indicator-card {
-            background-color: var(--bg-card);
+            background-color: #363647;
             border-radius: 12px;
             padding: 35px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         .card-header {
@@ -211,7 +245,7 @@
         }
 
         .card-subtitle {
-            color: var(--text-muted);
+            color: #A3A4AF;
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -223,7 +257,7 @@
             font-weight: 700;
             margin-bottom: 5px;
             line-height: 1;
-            color: #92C6B2; /* Ton verdâtre du CO2e */
+            color: #92C6B2;
         }
 
         .card-value sub {
@@ -232,7 +266,7 @@
 
         .card-desc {
             font-size: 0.95rem;
-            color: var(--text-light-grey);
+            color: #D5D6DD;
         }
 
         .card-details {
@@ -246,7 +280,7 @@
             padding-left: 18px;
             margin-bottom: 12px;
             font-size: 0.85rem;
-            color: var(--text-light-grey);
+            color: #D5D6DD;
             line-height: 1.5;
         }
 
@@ -254,193 +288,182 @@
             content: "•";
             position: absolute;
             left: 0;
-            color: var(--text-muted);
+            color: #A3A4AF;
             font-size: 1.2rem;
             top: -4px;
         }
 
         .card-details strong {
-            color: var(--text-white);
+            color: white;
             font-weight: 600;
         }
 
         .card-note {
             font-size: 0.75rem;
             font-style: italic;
-            color: var(--text-muted);
+            color: #A3A4AF;
         }
 
-        /* ==========================================
-           FOOTER
-        =========================================== */
-        .site-footer {
-            background-color: var(--bg-footer);
-            padding: 60px 0;
+        /* FOOTER */
+        #footer {
+            background: #616275;
+            color: #D6D1D5;
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            gap: 40px;
+            margin-top: 60px;
         }
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 3fr 2fr;
-            gap: 80px;
+        #footer>div {
+            width: 45%;
         }
 
-        .site-footer h3 {
-            font-size: 1.4rem;
+        .f-titres {
+            font-size: 20px;
             font-weight: 500;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
+            color: white;
         }
 
-        .site-footer p {
-            font-size: 0.95rem;
-            color: var(--text-light-grey);
+        #footer p {
+            font-size: 14px;
             line-height: 1.7;
         }
 
-        .site-footer a {
-            color: var(--text-white);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* ==========================================
-           RESPONSIVE
-        =========================================== */
+        /* RESPONSIVE */
         @media (max-width: 950px) {
             .content-grid {
                 grid-template-columns: 1fr;
                 gap: 50px;
             }
-            
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
+
+            #footer {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            #footer>div {
+                width: 100%;
             }
         }
 
         @media (max-width: 650px) {
-            .header-container {
-                flex-direction: column;
-                gap: 20px;
-                align-items: stretch;
-            }
-            
-            .search-container {
-                margin-left: 0;
-                justify-content: center;
-            }
-            
-            .search-bar {
-                max-width: 100%;
-            }
-            
             .page-title {
-                font-size: 3.5rem;
+                font-size: 3rem;
             }
         }
-    .site-header { background: #424357; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 1100; }
-.header-left { display: flex; align-items: center; gap: 20px; }
-.burger-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; }
-.burger-btn span { width: 24px; height: 3px; background: white; border-radius: 2px; display: block; }
-.logo { font-size: 24px; font-weight: bold; color: white; text-decoration: none; }
-.search-container { position: relative; width: 100%; max-width: 400px; }
-.search-input { width: 100%; height: 36px; padding: 0 40px 0 12px; border-radius: 6px; border: 1px solid #b0b5c1; background: #e2e4e8; color: #1c2530; font-size: 14px; outline: none; }
-.search-input::placeholder { color: #556070; }
-.search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: #1c2530; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-.menu-overlay { position: fixed; top: 60px; left: 0; width: 100vw; height: calc(100vh - 60px); background: rgba(0,0,0,0.25); z-index: 900; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
-.menu-overlay.active { opacity: 1; visibility: visible; }
-.sidebar-menu { position: fixed; top: 60px; left: 0; width: 260px; height: calc(100vh - 60px); background: #1e2530; color: white; z-index: 1000; transform: translateX(-100%); transition: transform .3s cubic-bezier(.4,0,.2,1); padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
-.sidebar-menu.open { transform: translateX(0); }
-.menu-title { font-size: 18px; font-weight: bold; }
-.menu-line { width: 100%; height: 1px; background: rgba(255,255,255,.4); }
-.menu-links { display: flex; flex-direction: column; gap: 16px; }
-.menu-links a { color: white; text-decoration: none; font-size: 16px; transition: opacity .2s; }
-.menu-links a:hover { opacity: .8; }
     </style>
 </head>
-<body>
-    <header class="site-header">
-  <div class="header-left">
-    <button class="burger-btn" id="burger-btn">
-      <span></span><span></span><span></span>
-    </button>
-    <a href="acceuil_version_finale.html" class="logo">ECOsINT</a>
-  </div>
-  <div class="search-container">
-    <input type="text" class="search-input" id="search-input" placeholder="Rechercher une entreprise...">
-    <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-  </div>
-</header>
 
-<div class="menu-overlay" id="menu-overlay"></div>
-<nav class="sidebar-menu" id="sidebar-menu">
-  <div class="menu-title">Menu</div>
-  <div class="menu-line"></div>
-  <div class="menu-links">
-    <a href="acceuil_version_finale.html">Page d'accueil</a>
-    <a href="methodologie.html">Présentation du projet</a>
-    <a href="qui_sommes_nous.html">Qui sommes-nous ?</a>
-    <a href="data.json" download>Télécharger les données</a>
-  </div>
-</nav>
+<body>
+
+    <header class="site-header">
+        <div class="header-left">
+            <button class="burger-btn" id="burger-btn">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="acceuil_version_finale.html" class="logo">ECOsINT</a>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="Rechercher une entreprise...">
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <nav class="sidebar-menu" id="sidebar-menu">
+        <div class="menu-title">Menu</div>
+        <div class="menu-line"></div>
+        <div class="menu-links">
+            <a href="acceuil_version_finale.html">Page d'accueil</a>
+            <a href="méthodo.html">Présentation du projet</a>
+            <a href="qui_sommes_nous.html">Qui sommes-nous ?</a>
+            <a href="data.json" download>Télécharger les données</a>
+        </div>
+    </nav>
+
     <main class="methodology-section">
         <div class="container">
-            <p class="breadcrumb">Transparence des émissions · CAC 40</p>
-            <h1 class="page-title"><strong>Méthodo</strong>logie</h1>
+            <h1 class="page-title"><strong>Méthodologie</strong></h1>
 
             <div class="content-grid">
                 <div class="text-content">
-                    <h2><span class="blue-highlight">Données financières :</span></h2>
+                    <h2><span>Données financières</span></h2>
                     <ul>
-                        <li>Obtenues grâce à l'API <em>yfinance</em> sur les 40 entreprises du<br>CAC40, couvrant le chiffres d'affaires, le montant des<br>dividendes versés par action et le nombre d'actions en<br>circulation au 31 décembre 2025.</li>
-                        <li>Multiplication des dividendes par action X actions en<br>circulation pour trouver le total des dividendes par<br>entreprise.</li>
+                        <li>Obtenues grâce à l'API <em>yfinance</em> sur les 40 entreprises du CAC40, couvrant le
+                            chiffre d'affaires, le montant des dividendes versés par action et le nombre d'actions en
+                            circulation au 31 décembre 2025.</li>
+                        <li>Multiplication des dividendes par action × actions en circulation pour trouver le total des
+                            dividendes par entreprise.</li>
                     </ul>
-                                    <h2><span class="blue-highlight">Données juridiques :</span></h2>
+                    <h2><span>Données juridiques</span></h2>
                     <ul>
-                        <li>Obtenues grâce à l'API <em>Judilibre</em> sur les 40 entreprises du<br>CAC40, qui recense les décisions de justice <br>partiellement puis exhaustivement depuis fin 2025.<br>Nous avons en particulier ciblé les décisions de justice concernant l’environnement.</li>
+                        <li>Obtenues grâce à l'API <em>Judilibre</em> sur les 40 entreprises du CAC40, qui recense les
+                            décisions de justice partiellement puis exhaustivement depuis fin 2025. Nous avons en
+                            particulier ciblé les décisions de justice concernant l’environnement.</li>
                     </ul>
                 </div>
 
-                <aside class="indicator-card">
-                    <div class="card-header">
-                        <p class="card-subtitle">Indicateur phare</p>
-                        <p class="card-value">CO<sub>2</sub>e / €</p>
-                        <p class="card-desc">Émissions rapportées au total des dividendes versés.</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="card-details">
-                            <li>Source : base en accès libre de la <strong>Climate Data Utility</strong>.</li>
-                            <li>Millésime <strong>2022</strong> · <strong>39 entreprises</strong> · Scopes 1 & 2.</li>
-                            <li>Stellantis : données agrégées <strong>PSA + Fiat Chrysler</strong>.</li>
-                        </ul>
-                        <p class="card-note">Données temporaires — une source de meilleure qualité est recherchée.</p>
-                    </div>
-                </aside>
+
             </div>
         </div>
     </main>
-    <script>
-const btn = document.getElementById('burger-btn');
-const menu = document.getElementById('sidebar-menu');
-const overlay = document.getElementById('menu-overlay');
-btn.onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); overlay.classList.toggle('active'); };
-overlay.onclick = () => { menu.classList.remove('open'); overlay.classList.remove('active'); };
 
-const entreprises = [];
-fetch('data.json').then(r => r.json()).then(data => { data.forEach(e => entreprises.push(e.nom)); });
-const searchInput = document.getElementById('search-input');
-const suggestions = document.createElement('div');
-suggestions.style.cssText = 'position:absolute;top:36px;left:0;right:0;background:white;border-radius:0 0 6px 6px;max-height:200px;overflow-y:auto;z-index:999;display:none;';
-document.querySelector('.search-container').appendChild(suggestions);
-searchInput.addEventListener('input', () => {
-  const val = searchInput.value.toLowerCase();
-  if (!val) { suggestions.style.display = 'none'; return; }
-  const filtres = entreprises.filter(n => n.toLowerCase().includes(val));
-  if (filtres.length === 0) { suggestions.style.display = 'none'; return; }
-  suggestions.innerHTML = filtres.map(n => `<div style="padding:8px 12px;cursor:pointer;color:#1c2530;font-size:14px;border-bottom:1px solid #eee;" onmouseover="this.style.background='#e6f1fb'" onmouseout="this.style.background='white'" onclick="window.location.href='page_entreprise.html?nom='+encodeURIComponent('${n}')">${n}</div>`).join('');
-  suggestions.style.display = 'block';
-});
-document.addEventListener('click', e => { if (!e.target.closest('.search-container')) suggestions.style.display = 'none'; });
-searchInput.addEventListener('keydown', e => { if (e.key === 'Enter' && searchInput.value.trim()) window.location.href = 'page_entreprise.html?nom=' + encodeURIComponent(searchInput.value.trim()); });
-</script>
+    <div id="footer">
+        <div>
+            <p class="f-titres">À propos de nous</p>
+            <p>ECOsINT est né d'une conviction simple : la donnée environnementale doit être lisible par tous. Notre
+                plateforme rassemble, normalise et restitue les émissions des grandes entreprises françaises afin que
+                chacun puisse comparer, comprendre et exiger des comptes, sans expertise technique préalable.</p>
+        </div>
+        <div>
+            <p class="f-titres">Nous contacter</p>
+            <p>Écrivez-nous à eco2int@proton.me. Pour le détail complet de la démarche, rendez-vous sur la page de
+                présentation du projet.</p>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('burger-btn');
+        const menu = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('menu-overlay');
+        btn.onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); overlay.classList.toggle('active'); };
+        overlay.onclick = () => { menu.classList.remove('open'); overlay.classList.remove('active'); };
+
+        const entreprises = [];
+        fetch('data.json').then(r => r.json()).then(data => {
+            data.forEach(e => entreprises.push(e.nom));
+        });
+
+        const searchInput = document.getElementById('search-input');
+        const suggestions = document.createElement('div');
+        suggestions.style.cssText = 'position:absolute;top:36px;left:0;right:0;background:white;border-radius:0 0 6px 6px;max-height:200px;overflow-y:auto;z-index:999;display:none;';
+        document.querySelector('.search-container').appendChild(suggestions);
+
+        searchInput.addEventListener('input', () => {
+            const val = searchInput.value.toLowerCase();
+            if (!val) { suggestions.style.display = 'none'; return; }
+            const filtres = entreprises.filter(n => n.toLowerCase().includes(val));
+            if (filtres.length === 0) { suggestions.style.display = 'none'; return; }
+            suggestions.innerHTML = filtres.map(n =>
+                `<div style="padding:8px 12px;cursor:pointer;color:#1c2530;font-size:14px;border-bottom:1px solid #eee;" onmouseover="this.style.background='#e6f1fb'" onmouseout="this.style.background='white'" onclick="window.location.href='page_entreprise.html?nom='+encodeURIComponent('${n}')">${n}</div>`
+            ).join('');
+            suggestions.style.display = 'block';
+        });
+
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.search-container')) suggestions.style.display = 'none';
+        });
+
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && searchInput.value.trim())
+                window.location.href = 'page_entreprise.html?nom=' + encodeURIComponent(searchInput.value.trim());
+        });
+    </script>
 </body>
+
 </html>
